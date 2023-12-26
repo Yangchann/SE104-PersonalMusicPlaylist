@@ -2,6 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException, status, Path
 from pydantic import BaseModel, Field
 from database import SessionLocal
 from typing import Annotated
+from models import Users
+
 # from models import Playlist
 from sqlalchemy.orm import Session
 # from models import Playlist
@@ -42,6 +44,9 @@ Playlists = {
         },  
     }
 
+
+
+
 def get_db():
     db = SessionLocal()
     try:
@@ -56,5 +61,70 @@ db_dependency = Annotated[Session, Depends(get_db)]
 async def take_all_playlists():
     return Playlists
 
-# @router.post("/playlists/add_songs")
+
+
+@router.post("/playlists/add_to_own_playlists")
+async def add_to_list(username: str, value: str, db: db_dependency):
+    user = db.query(Users).filter(Users.username == username).first()
+    
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    if user.playlists is None:
+        user.playlists = []
+    
+    playlist = list(user.playlists)
+    playlist.append(value)    
+    user.playlists = playlist
+    
+    db.add(user)
+    
+    # Commit the changes to the database
+    db.commit()
+@router.post("/playlists/add_to_recently_playlists")
+async def add_to_recently_list(username: str, value: str, db: db_dependency):
+    user = db.query(Users).filter(Users.username == username).first()
+    
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    if user.recently_songs is None:
+        user.recently_songs = []
+    
+    playlist = list(user.recently_songs)
+    playlist.append(value)
+          
+    user.recently_songs = playlist
+    
+    db.add(user)
+    
+    # Commit the changes to the database
+    db.commit()
+
+
+@router.get("/playlists/take_owned_playlists/{username}")
+async def take_owned_playlists(username: str, db: db_dependency):
+    user = db.query(Users).filter(Users.username == username).first()
+    
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    playlist_names = user.playlists
+    
+    owned_playlists = {name: Playlists[name] for name in playlist_names}
+    
+    return owned_playlists
+@router.get("/playlists/take_recently_playlists/{username}")
+async def take_recently_playlists(username: str, db: db_dependency):
+    user = db.query(Users).filter(Users.username == username).first()
+    
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    playlist_names = user.recently_songs
+    
+    recently_playlists = {name: Playlists[name] for name in playlist_names}
+    
+    return recently_playlists
+
     

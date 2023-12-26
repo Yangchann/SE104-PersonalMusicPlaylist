@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Love Music</title>
+</head>
+<body>
+    <header>
+        <div class="menu_side">
+            <div class="logo">
+                <div class="img_logo">
+                    <img src="img/logo.svg" alt="Logo" title="Logo">
+                </div>
+                <div class="web_name">Love Music</div>
+            </div>
+            <div class="playlist">
+                <h4 class="active"><span></span><i class="bi bi-house-fill"></i> Home</h4>
+                <h4 class="active"><span></span><i class="bi bi-file-earmark-music"></i> Recommended Playlist</h4>
+                <h4 class="active"><span></span><i class="bi bi-music-note"></i> My Playlist</h4>
+                <h4 class="active"><span></span><i class="bi bi-music-note-beamed"></i> Favorite Songs</h4>
+                <h4 class="active"><span></span><i class="bi bi-music-note-list"></i> Recent Songs</h4>
+            </div>
+        </div>
+
+        <div class="song_side">
+            <nav>
+                <div class="search">
+                    <i class="bi bi-search"></i>
+                    <input type="text" placeholder="Search Music...">
+                </div>
+                <div class="user">
+                    <img src="img/avatar.jpg" alt="User" title="khoacm" id="userImage">
+                </div>
+            </nav>
+            <div class="profile">
+                <div class="ava">
+                    <img src="img/avatar.jpg" alt="Avatar" title="GiangTran">
+                </div>
+                <div class="username">Khoa Nhat Tran</div>
+            </div>
+
+            <!-- My Playlist Section -->
+            <div class="my_playlist">
+                <div class="h4">
+                    <h4>My Playlist</h4>
+                    <div class="btn_s">
+                        <i id="left_scroll" class="bi bi-arrow-left-short"></i>
+                        <i id="right_scroll" class="bi bi-arrow-right-short"></i>
+                    </div>
+                </div>
+                <div class="playlists",  id="myPlaylistContainer">
+                    <!-- Playlist Items -->
+                    <!-- Add your playlist items here -->
+                </div>
+            </div>
+
+            <!-- Favorite Songs Section -->
+            <div class="my_playlist">
+                <div class="h4">
+                    <h4>Favorite Songs</h4>
+                    <div class="btn_s">
+                        <i id="left_scroll" class="bi bi-arrow-left-short"></i>
+                        <i id="right_scroll" class="bi bi-arrow-right-short"></i>
+                    </div>
+                </div>
+                <div class="playlists", id="myRecentlyPlaylistContainter">
+                    <!-- Favorite Songs Items -->
+                    <!-- Add your favorite songs items here -->
+                </div>
+            </div>
+            <!-- End Playlist Components -->
+        </div>
+    </header>x1
+    <script src='main.js'></script></body>
+</html>
