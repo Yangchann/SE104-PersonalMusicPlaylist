@@ -1,50 +1,94 @@
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f4f4f4;
-    }
+html {
+    height: 100%;
+}
 
-    .wapper {
-        max-width: 400px;
-        margin: 50px auto;
-        background: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+body {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background: linear-gradient(#141e30, #243b55);
+}
 
-    .wapper-heading h1 {
-        text-align: center;
-        color: #333;
-    }
+.signup-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    padding: 40px;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, .5);
+    box-sizing: border-box;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, .6);
+    border-radius: 10px;
+}
 
-    form {
-        display: flex;
-        flex-direction: column;
-    }
+.signup-box h2 {
+    margin: 0 0 30px;
+    padding: 0;
+    color: #fff;
+    text-align: center;
+}
 
-    .input_field {
-        margin-bottom: 15px;
-    }
+form {
+    display: flex;
+    flex-direction: column;
+}
 
-    .input_field input {
-        width: 100%;
-        padding: 10px;
-        box-sizing: border-box;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
+.signup-box .user-box {
+    position: relative;
+}
 
-    .btn {
-        background-color: #4caf50;
-        color: white;
-        padding: 10px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
+.signup-box .user-box input {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #fff;
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    background: transparent;
+}
 
-    .btn:hover {
-        background-color: #45a049;
-    }
+.signup-box .user-box label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px 0;
+    font-size: 17px;
+    color: #fff;
+    pointer-events: none;
+    transition: .5s;
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+button {
+    background-color: #6974ac;
+    font-size: 20px;
+    color: white;
+    padding: 10px 30px;
+    border: 2px solid white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #097579;
+    color: #fff;
+}
+
+.signup-box .user-box input:focus~label,
+.signup-box .user-box input:valid~label {
+    top: -20px;
+    left: 0;
+    color: #03e9f4;
+    font-size: 12px;
+}
