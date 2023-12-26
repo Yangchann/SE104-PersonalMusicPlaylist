@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet " href="signup.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+    <title>Sign up / Log in</title>
+</head>
+
+<body>
+    <div class="wapper">
+        <div class="wapper-heading">
+            <h1>Sign Up</h1>
+        </div>
+
+        <form>
+            <div class="input_field">
+                <input id="first_name" type="text" placeholder="first name">
+            </div>
+            <div class="input_field">
+                <input id="last_name" type="text" placeholder="Last name">
+            </div>
+            <div class="input_field">
+                <input id="username" type="text" placeholder="User Name">
+            </div>
+
+            <div class="input_field">
+                <input id="email" type="text" placeholder="Email">
+            </div>
+
+            <div class="input_field">
+                <input id="password" type="text" placeholder="Password">
+            </div>
+
+            <div class="input_field">
+                <input id="password" type="text" placeholder="Confirm password">
+            </div>
+            <button id="btnSignup" type="button" class="btn" onclick="signup(event)"> Sign Up</button>
+
+    </div>
+
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">Success</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Signup successful! You can Login to the system !
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">Error</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Signup failed. Please try again.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+
+</html>
