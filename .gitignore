@@ -1,0 +1,15 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Local development configuration
+.env
+
+# Database
+listen.db
+# Editor directories and files
+SE_BACKEND/
+
+fastapi/
