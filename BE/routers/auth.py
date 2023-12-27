@@ -28,6 +28,12 @@ class SignUpUser(BaseModel):
     username: str
     password: str
 
+class UpdateUserInfor(BaseModel):
+    username: str
+    first_name: str
+    last_name: str
+    favorites_songs: str
+    avatar_path: str    
 
 
 def get_db():
@@ -103,5 +109,42 @@ async def signin(db: db_dependency,
 async def take_all_user(db: db_dependency):
     return db.query(Users).all()
 
+@router.get("/take_user_infor/{username}")
+async def take_user_infor(db: db_dependency,
+                          username: str):
+    user = db.query(Users).filter(username == Users.username).first()
+    
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    return {"first_name": user.first_name,
+            "last_name": user.last_name,
+            "playlists": user.playlists,
+            "favourites_songs": user.favorites_songs,
+            "avatar_path": user.avatar_path
+            }
 
+@router.post("/update_user_infor")
+async def update_user_infor(username: str,
+                            UserRequest: UpdateUserInfor,
+                            db: db_dependency):
+    user = db.query(Users).filter(username == Users.username).first()
+    
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    
+    create_user_model = UpdateUserInfor(**UserRequest.model_dump()) # create Users instance database
+    print(create_user_model)
+    
+    user.first_name = create_user_model.first_name
+    user.last_name = create_user_model.last_name
+    user.favorites_songs = create_user_model.favorites_songs
+    user.avatar_path = create_user_model.avatar_path
+    
+    db.add(user)
+    
+    db.commit()
 
+    
+    
