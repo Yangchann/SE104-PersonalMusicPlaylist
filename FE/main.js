@@ -1,15 +1,16 @@
 // your-script.js
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Gọi hàm để lấy danh sách playlists khi trang web được tải
-    fetchownPlaylists();
-    fetchRecentlyPlaylists  ();
+    var username = localStorage.getItem("username");
+    fetchownPlaylists(username);
+    fetchRecentlyPlaylists(username);
+    fetchUserInfo(username);
 });
 
-function fetchownPlaylists() {
+function fetchownPlaylists(username) {
     // Gửi yêu cầu GET tới endpoint của server
-    var username = document.getElementById("userImage").getAttribute("title")
-   fetch(`http://127.0.0.1:8001/playlists/take_owned_playlists/${username}`)
+    // var username = document.getElementById("userImage").getAttribute("title")
+    fetch(`http://127.0.0.1:8001/playlists/take_owned_playlists/${username}`)
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -18,6 +19,7 @@ function fetchownPlaylists() {
     })
     .then(data => {
         // Lấy container của playlists
+        console.log(data);
         const playlistContainer = document.getElementById('myPlaylistContainer');
 
         // Loop through the data and create playlist items
@@ -49,9 +51,9 @@ function fetchownPlaylists() {
             }
         }
     )}
-function fetchRecentlyPlaylists() {
+function fetchRecentlyPlaylists(username) {
     // Gửi yêu cầu GET tới endpoint của server
-    var username = document.getElementById("userImage").getAttribute("title")
+    // var username = document.getElementById("userImage").getAttribute("title")
    fetch(`http://127.0.0.1:8001/playlists/take_recently_playlists/${username}`)
     .then(response => {
         if (!response.ok) {
@@ -92,6 +94,44 @@ function fetchRecentlyPlaylists() {
             }
         }
     )}
+
+
+
+
+    
+function fetchUserInfo(username){
+    // Request
+
+    fetch(`http://127.0.0.1:8001/take_user_infor/${username}`)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Network response was not ok");
+        }
+        return response.json();
+
+    })
+    .then(data => {
+        
+        console.log(data);
+
+        // take data from fetch
+        var avatarPath = data["avatar_path"];
+        var firstName = data["first_name"];
+        var lastName = data["last_name"];
+
+        var userImage = document.getElementById('userImage');
+        var userImage_1 = document.getElementById('userImage_1');
+        var usernameElemet = document.getElementById('username');
+
+        userImage.src = avatarPath
+        userImage_1.src = avatarPath
+        usernameElemet.textContent = firstName + " " + lastName
+
+
+    })
+
+}
+
 // function fetchRecentlyPlaylists() {
 //     // Gửi yêu cầu GET tới endpoint của server
 //    fetch('http://127.0.0.1:8001/playlists/take_all_playlists')
