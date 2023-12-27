@@ -34,7 +34,6 @@ header .menu_side{
     margin: 1% 0.5%;
     color: #fff;
     background-color: #000000;
-    /* overflow: hidden; */
 }
 
 header .song_side {
@@ -46,6 +45,9 @@ header .song_side {
     background-color: #000000;
     overflow-y: scroll;
 }
+/* -------------------------------------------------- */
+/*                      MENU SIDE                     */
+/* -------------------------------------------------- */
 
 header .menu_side .logo{
     position: relative;
@@ -106,7 +108,7 @@ header .menu_side .playlist h4 {
 }
 
 header .menu_side .playlist h4:hover {
-    color: #fff;
+    color: #2db2d7;
 }
 
 header .menu_side .playlist h4 span {
@@ -134,7 +136,7 @@ header .menu_side .playlist h4 .bi {
 }
 
 header .menu_side .playlist .active {
-    color: #3bdcd2;
+    color: #ffffff;
 }
 
 header .menu_side .playlist .active span {
