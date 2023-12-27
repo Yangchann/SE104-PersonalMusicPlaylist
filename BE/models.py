@@ -5,9 +5,6 @@ from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 
 
-Playlists = {"Suy": ["Em của ngày hôm qua", "Chúng ta không thuộc về nhau"], "Yêu đời": ["Hãy để tôi ôm em", "Mình đi đâu thế bố ơi"]}
-
-
 class Playlist(Base):
     __tablename__ = "playlists"
     id = Column(Integer, primary_key=True, index=True)
@@ -22,7 +19,7 @@ class Users(Base):
     last_name = Column(String)
     hashed_password = Column(String)
     playlists = Column(JSON, default=[])
-    favorites_songs = Column(String, default="")
-    avatar_path = Column(String, default="")
+    favorites_songs = Column(String, default="") # favourite playlist
+    avatar_path = Column(String, default="userimg/default.jpg")
     recently_songs = Column(JSON, default=[])
     
