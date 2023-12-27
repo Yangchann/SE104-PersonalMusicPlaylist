@@ -32,13 +32,13 @@ Playlists = {
         "imageUrl": "img/4.jpg",
         "songslist": ["Chúng ta không thuộc về nhau", "Em của ngày hôm qua"]
         },
-    "Yêu đời": {
-        "title": "Yêu đời", 
+    "Hip hop": {
+        "title": "Hip hop", 
          "imageUrl": "img/2.jpg",
          "songslist": ["Chúng ta không thuộc về nhau", "Em của ngày hôm qua"]
         },
-    "Yêu đời": {
-        "title": "Yêu đời", 
+    "Cải lương": {
+        "title": "Cải lương", 
          "imageUrl": "img/2.jpg",
          "songslist": ["Chúng ta không thuộc về nhau", "Em của ngày hôm qua"]
         },  
@@ -81,6 +81,27 @@ async def add_to_list(username: str, value: str, db: db_dependency):
     
     # Commit the changes to the database
     db.commit()
+@router.post("/playlists/delete_from_own_playlists")
+async def delte_from_list(username: str, value: str, db: db_dependency):
+    user = db.query(Users).filter(Users.username == username).first()
+    
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    if user.playlists is None:
+        raise HTTPException(status_code=404, detail="Your playlists is empty")
+
+    
+    playlist = list(user.playlists)
+    playlist.remove(value)    
+    user.playlists = playlist
+    
+    db.add(user)
+    
+    # Commit the changes to the database
+    db.commit()
+    
+    
 @router.post("/playlists/add_to_recently_playlists")
 async def add_to_recently_list(username: str, value: str, db: db_dependency):
     user = db.query(Users).filter(Users.username == username).first()
@@ -114,6 +135,8 @@ async def take_owned_playlists(username: str, db: db_dependency):
     owned_playlists = {name: Playlists[name] for name in playlist_names}
     
     return owned_playlists
+
+
 @router.get("/playlists/take_recently_playlists/{username}")
 async def take_recently_playlists(username: str, db: db_dependency):
     user = db.query(Users).filter(Users.username == username).first()
@@ -128,3 +151,4 @@ async def take_recently_playlists(username: str, db: db_dependency):
     return recently_playlists
 
     
+# @router.get("/playlists/")
