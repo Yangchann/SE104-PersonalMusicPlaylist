@@ -89,7 +89,7 @@ async def create_user(db: db_dependency,
     db.commit() # commit insert process
     
     
-    return {"Status":"Successfully created"}
+    return {"Status": True, "details": "Successfully created", "username": create_user_request.username}
     
     
 @router.post("/auth/signin")   
@@ -97,10 +97,9 @@ async def signin(db: db_dependency,
                  userquest: SignUpUser):
     
     user = authenticate_user(userquest.username, userquest.password, db)
-    print(user)
     if not user:
-        return "Username or password is incorrect"
-    return "Signing Successfully"
+        raise HTTPException(statuscode=401, detail="Username not found")
+    return {"Status": True, "details": "Successfully Login", "username": userquest.username}
 
 
 
@@ -135,7 +134,6 @@ async def update_user_infor(username: str,
     
     
     create_user_model = UpdateUserInfor(**UserRequest.model_dump()) # create Users instance database
-    print(create_user_model)
     
     user.first_name = create_user_model.first_name
     user.last_name = create_user_model.last_name
@@ -148,3 +146,4 @@ async def update_user_infor(username: str,
 
     
     
+
