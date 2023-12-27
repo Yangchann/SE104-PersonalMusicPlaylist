@@ -18,30 +18,71 @@
         <h2>Sign Up</h2>
         <form>
             <div class="user-box">
-                <input type="text" name="" required="">
-                <label>Name</label>
+                <input id= "first_name" type="text" name="" required="">
+                <label>First Name</label>
             </div>
             <div class="user-box">
-                <input type="text" name="" required="">
+                <input id= "last_name" type="text" name="" required="">
+                <label>Last Name</label>
+            </div>
+            <div class="user-box">
+                <input id="username" type="text" name="" required="">
                 <label>Username</label>
             </div>
-            <div class="user-box">
-                <input type="text" name="" required="">
+            <!-- <div class="user-box">
+                <input id="e," type="text" name="" required="">
                 <label>Email</label>
-            </div>
+            </div> -->
             <div class="user-box">
-                <input type="password" name="" required="">
+                <input id="password" type="password" name="" required="">
                 <label>Password</label>
             </div>
             <div class="user-box">
-                <input type="password" name="" required="">
+                <input id="Comfirm_password" type="password" name="" required="">
                 <label>Comfirm Password</label>
             </div>
             <div class="btn">
-                <button id="" type="button" onclick="login(event)"> Sign Up </button>
+                <button id="" type="button" onclick="signup(event)"> Sign Up </button>
             </div>
         </form>
     </div>
+
+
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">Success</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Signup successful! You can Login to the system !
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">Error</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Signup failed. Please try again.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+
 </body>
 
 </html>
