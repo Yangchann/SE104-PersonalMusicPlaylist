@@ -55,6 +55,7 @@ function fetchownPlaylists(username) {
                 fetchSongsfromPlaylist(playlist_name_clicked)
                     .then(song_list => {
                         console.log(song_list);
+                        playPlaylistSongs(playlist_name_clicked,song_list);
                     })
                     .catch(error => {
                         console.error('Error fetching songs:', error);
@@ -208,59 +209,76 @@ function fetchUserInfo(username){
 
 
 
-function playPlaylistSongs(playlistData) {
+function playPlaylistSongs(playlist_name_clicked, playlistData) {
 
-
-
-    const baseAudioPath = "audio/Yêu đời".replace(/\/$/, "");
+    const baseAudioPath = `audio/${playlist_name_clicked}`.replace(/\/$/, "");
     const songs = playlistData.map(song => `${baseAudioPath}/${song}.mp3`);
     console.log(songs);
-    const audioPlayer = new Audio();
 
-    // Xác định nút play và pause
-    const playButton = document.getElementById('playbtn');
-    console.log(playButton);
-    // const pauseButton = document.getElementById('playlistsPause');
+    let currentIndex = 0;
+    const audioPlayer = new Audio(songs[currentIndex])
 
-    // Gán sự kiện click cho nút play
-    playButton.addEventListener('click', function () {
-        // Kiểm tra xem có bài hát nào đang được phát không
-        console.log("Khoa");
-        if (audioPlayer.src === "") {
-            // Nếu không có bài hát nào đang được phát, chọn bài hát đầu tiên và phát nó
-            if (songs.length > 0) {
-                audioPlayer.src = songs[0].url;
-                audioPlayer.play();
-            }
-        } else {
-            // Nếu có bài hát đang được phát, tiếp tục phát
+    console.log(songs[currentIndex]);
+    
+    audioPlayer.playbackRate = 2.0 || 1.0;
+
+
+    audioPlayer.play();
+
+    audioPlayer.addEventListener('ended', function(){
+        currentIndex ++;
+
+        if (currentIndex < songs.length) {
+            console.log(songs[currentIndex]);
+
+            audioPlayer.src = songs[currentIndex];
             audioPlayer.play();
         }
-    });
-
-    // Gán sự kiện click cho nút pause
-    pauseButton.addEventListener('click', function () {
-        // Dừng phát nhạc
-        audioPlayer.pause();
+        else {
+            console.log('Playlist ended');
+        }
     });
 }
 
+
+    // if (audioPlayer.src === "") {
+    //     if (songs.length > 0) {
+    //         audioPlayer.src = songs[0].url;
+    //         console.log(audioPlayer.src);
+
+    //         audioPlayer.play();
+    //     }
+    //     else {
+    //         audioPlayer.play();
+    //     }
+    // }
+
+
+    // Xác định nút play và pause
+    // const pauseButton = document.getElementById('playlistsPause');
+
+    // Gán sự kiện click cho nút play
+    // playButton.addEventListener('click', function () {
+    //     // Kiểm tra xem có bài hát nào đang được phát không
+    //     console.log("Khoa");
+    //     if (audioPlayer.src === "") {
+    //         // Nếu không có bài hát nào đang được phát, chọn bài hát đầu tiên và phát nó
+    //         if (songs.length > 0) {
+    //             audioPlayer.src = songs[0].url;
+    //             audioPlayer.play();
+    //         }
+    //     } else {
+    //         // Nếu có bài hát đang được phát, tiếp tục phát
+    //         audioPlayer.play();
+    //     }
+    // });
+
+    // // Gán sự kiện click cho nút pause
+    // pauseButton.addEventListener('click', function () {
+    //     // Dừng phát nhạc
+    //     audioPlayer.pause();
+    // });
+
+
 // Thêm sự kiện click cho nút playlistsPlay
 // playlistData =  ["My everything", "One Day", "Enjoy your like", "Wildlife (Original Mix)", "Và tôi hát", "Đón bình minh", "Ước mơ tôi", "Sẽ không dừng lại", "Phút giây tuyệt vời"];
-
-
-playlistsPlayButton.addEventListener('click', function () {
-    fetch(`http://127.0.0.1:8001/playlists/take_owned_playlists/${username}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            playPlaylistSongs(playlistsPlayButton);
-        })
-        .catch(error => {
-            console.error('Error fetching playlist data:', error);
-        });
-});
