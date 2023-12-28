@@ -248,6 +248,36 @@
                 </div>
             </div>
         </div>
+        <div class="edit-form" id="editForm">
+            <h2>Edit Profile</h2>
+
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" placeholder="Change First Name">
+                <button onclick="changeInfo('firstName')">Change</button>
+            </div>
+
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" placeholder="Change Last Name">
+                <button onclick="changeInfo('lastName')">Change</button>
+            </div>
+
+            <div class="form-group">
+                <label for="userName">User Name</label>
+                <input type="text" id="userName" placeholder="Change User Name">
+                <button onclick="changeInfo('userName')">Change</button>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Change Password">
+                <button onclick="changeInfo('password')">Change</button>
+            </div>
+
+            <button onclick="doneEditing()">Done</button>
+        </div>
     </header>
+    <script src="main.js"></script>
 </body>
 </html>

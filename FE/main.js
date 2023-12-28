@@ -119,7 +119,7 @@ function fetchRecentlyPlaylists(username) {
 
             // Append the playlist item to the container
             playlistContainer.appendChild(playlistItem);
-                
+
             }
         }
     )}
@@ -141,7 +141,7 @@ function fetchSongsfromPlaylist(playlist_name) {
 
 
 
-    
+
 function fetchUserInfo(username){
     // Request
 
@@ -154,7 +154,7 @@ function fetchUserInfo(username){
 
     })
     .then(data => {
-        
+
         console.log(data);
 
         // take data from fetch
@@ -281,8 +281,8 @@ function previoussong() {
 
 function controlSeekBar() {
     const seekBar = document.getElementById('seekBar');
-    const playedColor = '#3bdcd2'; 
-    const remainingColor = '#ccc';  
+    const playedColor = '#3bdcd2';
+    const remainingColor = '#ccc';
 
     audioPlayer.addEventListener('timeupdate', function () {
         const currentTime = audioPlayer.currentTime;
@@ -301,7 +301,7 @@ function controlSeekBar() {
     });
 
     seekBar.addEventListener('mousedown', function () {
-        audioPlayer.pause(); 
+        audioPlayer.pause();
     });
 
     seekBar.addEventListener('mouseup', function () {
@@ -326,14 +326,14 @@ function controlVolume() {
         if (audioPlayer.muted) {
             volumeIcon.style.color = mutedColor;
         } else {
-            volumeIcon.style.color = ''; 
+            volumeIcon.style.color = '';
         }
     });
 
     volumeBar.addEventListener('input', function () {
         const volumeLevel = volumeBar.value / 100;
         audioPlayer.volume = volumeLevel;
-        audioPlayer.muted = false;  
+        audioPlayer.muted = false;
         volumeBar.style.background = `linear-gradient(90deg, ${mutedColor} ${volumeBar.value}%, transparent ${volumeBar.value}%)`;
     });
 
@@ -343,11 +343,26 @@ function controlVolume() {
         if (audioPlayer.muted) {
             volumeIcon.style.color = mutedColor;
         } else {
-            volumeIcon.style.color = '';  
+            volumeIcon.style.color = '';
         }
     });
 }
 // ----------------------------------------------------------------
+// Form Edit Profile
+function showEditForm() {
+    document.getElementById('editForm').style.display = 'block';
+}
+
+function changeInfo(fieldName) {
+    var inputValue = document.getElementById(fieldName).value;
+    // Add logic to handle changing information
+    // This function can be modified according to your requirements
+    console.log(fieldName + ' changed to: ' + inputValue);
+}
+
+function doneEditing() {
+    document.getElementById('editForm').style.display = 'none';
+}
 
 
 
