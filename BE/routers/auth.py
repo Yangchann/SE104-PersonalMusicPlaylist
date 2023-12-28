@@ -1,5 +1,5 @@
 # import APIRouter
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, File, UploadFile, HTTPException
 from pydantic import BaseModel
 from models import Users
 # from passlib.context import CryptContext
@@ -9,7 +9,7 @@ from typing import Annotated
 # from fastapi.security import OAuth2PasswordRequestForm
 from datetime import timedelta, datetime
 import bcrypt
-
+import os
 
 router = APIRouter()
 
@@ -145,5 +145,59 @@ async def update_user_infor(username: str,
     db.commit()
 
     
-    
+class UserManager:
+    def __init__(self, db: Session):
+        self.db = db
+
+    def get_user(self, username: str):
+        return self.db.query(Users).filter(Users.username == username).first()
+
+    def update_user_attribute(self, username: str, attribute_name: str, attribute_value: str):
+        user = self.get_user(username)
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+
+        setattr(user, attribute_name, attribute_value)
+        self.db.add(user)
+        self.db.commit()
+    def update_user_avatar(self, username: str, avatar: UploadFile):
+        user = self.get_user(username)
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+
+        # Specify the directory where you want to save avatar images
+        user_avatar_directory = "userimg"
+
+        # Create the directory if it doesn't exist
+        if not os.path.exists(user_avatar_directory):
+            os.makedirs(user_avatar_directory)
+
+        # Save the uploaded file to a user-specific location
+        user_avatar_path = f"{user_avatar_directory}/{username}_avatar.jpg"
+        with open(user_avatar_path, "wb") as avatar_file:
+            avatar_file.write(avatar.file.read())
+
+        # Update the user's avatar path in the database
+        user.avatar_path = user_avatar_path
+        self.db.add(user)
+        self.db.commit()
+
+user_manager = UserManager(db_dependency)
+
+@router.post("/user/update_first_name/{username}")
+async def update_first_name(username: str, first_name: str, db:db_dependency):
+    user_manager = UserManager(db)
+    user_manager.update_user_attribute(username, "first_name", first_name)
+    return {"Status": True, "details": "First name updated successfully", "username": username}
+
+@router.post("/user/update_last_name/{username}")
+async def update_last_name(username: str, last_name: str, db:db_dependency):
+    user_manager = UserManager(db)
+    user_manager.update_user_attribute(username, "last_name", last_name)
+    return {"Status": True, "details": "Last name updated successfully", "username": username}
+@router.post("/user/update_avatar/{username}")
+async def update_avatar(username: str, avatar: UploadFile = File(...), db: Session = Depends(get_db)):
+    user_manager = UserManager(db)
+    user_manager.update_user_avatar(username, avatar)
+    return {"Status": True, "details": "Avatar updated successfully", "username": username}
 
