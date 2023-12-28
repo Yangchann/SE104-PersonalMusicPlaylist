@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
     fetchownPlaylists(username);
     fetchRecentlyPlaylists(username);
     fetchUserInfo(username);
+
+
 });
 
 function fetchownPlaylists(username) {
@@ -32,36 +34,49 @@ function fetchownPlaylists(username) {
             console.log(imageUrl)
             console.log(title)
 
-            const playlistItem = document.createElement('li', className='Item');
+            const playlistItem = document.createElement('li');
+            playlistItem.className = 'Item';
             playlistItem.innerHTML = `
                 <div class="img_play">
                     <img src="${imageUrl}" alt="alan">
-                    <i class="bi playListPlay bi-play-circle-fill"></i>
+                    <i id="playbtn" class="bi playListPlay bi-play-circle-fill"></i>
                 </div>
-                <h5>${title}
-                    <br>
-                    <div class="subtitle">Subtitle</div>
-
-                </h5>
+                <h5>${title}</h5>
             `;
 
             // Append the playlist item to the container
             playlistContainer.appendChild(playlistItem);
-                
-            }
         }
-    )}
+
+        const playButtons = document.querySelectorAll('#myPlaylistContainer .bi.playListPlay');
+        playButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const playlist_name_clicked = button.closest('li').querySelector('h5').textContent;
+                fetchSongsfromPlaylist(playlist_name_clicked)
+                    .then(song_list => {
+                        console.log(song_list);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching songs:', error);
+                    });
+            });
+        });
+    });
+}
+
+
+
 function fetchRecentlyPlaylists(username) {
     // Gửi yêu cầu GET tới endpoint của server
     // var username = document.getElementById("userImage").getAttribute("title")
-   fetch(`http://127.0.0.1:8001/playlists/take_recently_playlists/${username}`)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
+    fetch(`http://127.0.0.1:8001/playlists/take_recently_playlists/${username}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
         // Lấy container của playlists
         const playlistContainer = document.getElementById('myRecentlyPlaylistContainter');
 
@@ -79,7 +94,7 @@ function fetchRecentlyPlaylists(username) {
             playlistItem.innerHTML = `
                 <div class="img_play">
                     <img src="${imageUrl}" alt="alan">
-                    <i class="bi playListPlay bi-play-circle-fill"></i>
+                    <i id="playbtn" class="bi playListPlay bi-play-circle-fill"></i>
                 </div>
                 <h5>${title}
                     <br>
@@ -95,6 +110,20 @@ function fetchRecentlyPlaylists(username) {
         }
     )}
 
+
+
+function fetchSongsfromPlaylist(playlist_name) {
+    return fetch(`http://127.0.0.1:8001/playlists/take_songs_list/${playlist_name}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            return data; // Return the data from the fetch
+        });
+}
 
 
 
@@ -174,3 +203,64 @@ function fetchUserInfo(username){
 //             }
 //         }
 //     )}
+
+
+
+
+
+function playPlaylistSongs(playlistData) {
+
+
+
+    const baseAudioPath = "audio/Yêu đời".replace(/\/$/, "");
+    const songs = playlistData.map(song => `${baseAudioPath}/${song}.mp3`);
+    console.log(songs);
+    const audioPlayer = new Audio();
+
+    // Xác định nút play và pause
+    const playButton = document.getElementById('playbtn');
+    console.log(playButton);
+    // const pauseButton = document.getElementById('playlistsPause');
+
+    // Gán sự kiện click cho nút play
+    playButton.addEventListener('click', function () {
+        // Kiểm tra xem có bài hát nào đang được phát không
+        console.log("Khoa");
+        if (audioPlayer.src === "") {
+            // Nếu không có bài hát nào đang được phát, chọn bài hát đầu tiên và phát nó
+            if (songs.length > 0) {
+                audioPlayer.src = songs[0].url;
+                audioPlayer.play();
+            }
+        } else {
+            // Nếu có bài hát đang được phát, tiếp tục phát
+            audioPlayer.play();
+        }
+    });
+
+    // Gán sự kiện click cho nút pause
+    pauseButton.addEventListener('click', function () {
+        // Dừng phát nhạc
+        audioPlayer.pause();
+    });
+}
+
+// Thêm sự kiện click cho nút playlistsPlay
+// playlistData =  ["My everything", "One Day", "Enjoy your like", "Wildlife (Original Mix)", "Và tôi hát", "Đón bình minh", "Ước mơ tôi", "Sẽ không dừng lại", "Phút giây tuyệt vời"];
+
+
+playlistsPlayButton.addEventListener('click', function () {
+    fetch(`http://127.0.0.1:8001/playlists/take_owned_playlists/${username}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            playPlaylistSongs(playlistsPlayButton);
+        })
+        .catch(error => {
+            console.error('Error fetching playlist data:', error);
+        });
+});
