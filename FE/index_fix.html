@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link rel="stylesheet" href="style.css">
     <title>Love Music</title>
 </head>
@@ -35,12 +36,12 @@
                 <!-- fetch user infor-->
 
                 <div class="user">
-                    <img src="" alt="User" title="khoacm" id="userImage">
+                    <img src="" alt="User" title="" id="userImage">
                 </div>
             </nav>
             <div class="profile">
                 <div class="ava">
-                    <img src="" alt="Avatar" title="GiangTran" id="userImage_1">
+                    <img src="" alt="Avatar" title="" id="userImage_1">
                 </div>
                 <div class="username" id="username"></div>
             </div>
@@ -75,7 +76,29 @@
                 </div>
             </div>
             <!-- End Playlist Components -->
+
+            <!-- Audio COntrol -->
+            <div class="music-control-bar">
+                <div class="controls">
+                    <i id="prevBtn" class="bi bi-skip-backward-fill" onclick="prevsong()"></i>
+                    <i id="playPauseBtn" class="bi bi-play-circle-fill" onclick="pause()"></i>
+                    <i id="nextBtn" class="bi bi-skip-forward-fill" onclick="nextsong()"></i>
+                </div>
+                <div class="progress-bar">
+                    <input type="range" id="seekBar" value="0" max="100">
+                </div>
+                <div class="volume-control">
+                    <i id="volumeIcon" class="bi bi-volume-up-fill"></i>
+                    <input type="range" id="volumeBar" value="100" max="100">
+                </div>
+            </div>
+
+
         </div>
+
+  
+
+
     </header>x1
     <script src='main.js'></script></body>
 </html>

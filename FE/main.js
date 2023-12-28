@@ -52,8 +52,13 @@ function fetchownPlaylists(username) {
         playButtons.forEach(button => {
             button.addEventListener('click', function () {
                 const playlist_name_clicked = button.closest('li').querySelector('h5').textContent;
+                const playPauseBtn = document.getElementById('playPauseBtn');
+                playPauseBtn.classList.add("bi-pause-circle-fill");
+                playPauseBtn.classList.remove("bi-play-circle-fill");
                 fetchSongsfromPlaylist(playlist_name_clicked)
                     .then(song_list => {
+                        localStorage.setItem('current_playlist', playlist_name_clicked);
+
                         console.log(song_list);
                         playPlaylistSongs(playlist_name_clicked,song_list);
                     })
@@ -161,52 +166,7 @@ function fetchUserInfo(username){
     })
 
 }
-
-// function fetchRecentlyPlaylists() {
-//     // Gửi yêu cầu GET tới endpoint của server
-//    fetch('http://127.0.0.1:8001/playlists/take_all_playlists')
-//     .then(response => {
-//         if (!response.ok) {
-//             throw new Error('Network response was not ok');
-//         }
-//         return response.json();
-//     })
-//     .then(data => {
-//         // Lấy container của playlists
-//         const playlistContainer = document.getElementById('myPlaylistContainer');
-
-//         // Loop through the data and create playlist items
-//         for (const key in data) {
-//             // console.log(key, data[key]);
-//             // Create the content for each playlist item
-
-//             const imageUrl = data[key]["imageUrl"]
-//             const title = data[key]["title"]
-//             console.log(imageUrl)
-//             console.log(title)
-
-//             const playlistItem = document.createElement('li', className='Item');
-//             playlistItem.innerHTML = `
-//                 <div class="img_play">
-//                     <img src="${imageUrl}" alt="alan">
-//                     <i class="bi playListPlay bi-play-circle-fill"></i>
-//                 </div>
-//                 <h5>${title}
-//                     <br>
-//                     <div class="subtitle">Subtitle</div>
-
-//                 </h5>
-//             `;
-
-//             // Append the playlist item to the container
-//             playlistContainer.appendChild(playlistItem);
-                
-//             }
-//         }
-//     )}
-
-
-
+var audioPlayer = new Audio()
 
 
 function playPlaylistSongs(playlist_name_clicked, playlistData) {
@@ -216,13 +176,12 @@ function playPlaylistSongs(playlist_name_clicked, playlistData) {
     console.log(songs);
 
     let currentIndex = 0;
-    const audioPlayer = new Audio(songs[currentIndex])
 
     console.log(songs[currentIndex]);
-    
+
     audioPlayer.playbackRate = 2.0 || 1.0;
 
-
+    audioPlayer.src = songs[currentIndex]
     audioPlayer.play();
 
     audioPlayer.addEventListener('ended', function(){
@@ -241,44 +200,40 @@ function playPlaylistSongs(playlist_name_clicked, playlistData) {
 }
 
 
-    // if (audioPlayer.src === "") {
-    //     if (songs.length > 0) {
-    //         audioPlayer.src = songs[0].url;
-    //         console.log(audioPlayer.src);
+function pause() {
+    const playPauseBtn = document.getElementById('playPauseBtn');
 
-    //         audioPlayer.play();
-    //     }
-    //     else {
-    //         audioPlayer.play();
-    //     }
-    // }
-
-
-    // Xác định nút play và pause
-    // const pauseButton = document.getElementById('playlistsPause');
-
-    // Gán sự kiện click cho nút play
-    // playButton.addEventListener('click', function () {
-    //     // Kiểm tra xem có bài hát nào đang được phát không
-    //     console.log("Khoa");
-    //     if (audioPlayer.src === "") {
-    //         // Nếu không có bài hát nào đang được phát, chọn bài hát đầu tiên và phát nó
-    //         if (songs.length > 0) {
-    //             audioPlayer.src = songs[0].url;
-    //             audioPlayer.play();
-    //         }
-    //     } else {
-    //         // Nếu có bài hát đang được phát, tiếp tục phát
-    //         audioPlayer.play();
-    //     }
-    // });
-
-    // // Gán sự kiện click cho nút pause
-    // pauseButton.addEventListener('click', function () {
-    //     // Dừng phát nhạc
-    //     audioPlayer.pause();
-    // });
+    if (audioPlayer.paused) {
+        audioPlayer.play();
+        playPauseBtn.classList.add("bi-play-circle-fill");
+        playPauseBtn.classList.remove("bi-pause-circle-fill");
+    }
+    else {
+        audioPlayer.pause();
+        playPauseBtn.classList.add("bi-pause-circle-fill");
+        playPauseBtn.classList.remove("bi-play-circle-fill");
+    }
+}
 
 
-// Thêm sự kiện click cho nút playlistsPlay
-// playlistData =  ["My everything", "One Day", "Enjoy your like", "Wildlife (Original Mix)", "Và tôi hát", "Đón bình minh", "Ước mơ tôi", "Sẽ không dừng lại", "Phút giây tuyệt vời"];
+// function controlSeekBar() {
+//     const seekBar = document.getElementById('seekBar');
+
+//     // Update the seek bar value when the audio is playing
+//     audioPlayer.addEventListener('timeupdate', function () {
+//         const currentTime = audioPlayer.currentTime;
+//         const duration = audioPlayer.duration;
+
+//         // Calculate the percentage of the track played
+//         const progress = (currentTime / duration) * 100;
+
+//         // Update the seek bar value
+//         seekBar.value = progress;
+//     });
+
+//     // Change the audio playback position when the user interacts with the seek bar
+//     seekBar.addEventListener('input', function () {
+//         const seekPosition = (seekBar.value / 100) * audioPlayer.duration;
+//         audioPlayer.currentTime = seekPosition;
+//     });
+// }
