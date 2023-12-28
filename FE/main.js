@@ -5,9 +5,15 @@ document.addEventListener("DOMContentLoaded", function () {
     fetchownPlaylists(username);
     fetchRecentlyPlaylists(username);
     fetchUserInfo(username);
-
+    controlSeekBar();
+    controlVolume()
 
 });
+
+current_playlists = []
+all_playlists = []
+current_index = 0
+var audioPlayer = new Audio()
 
 function fetchownPlaylists(username) {
     // Gửi yêu cầu GET tới endpoint của server
@@ -21,7 +27,9 @@ function fetchownPlaylists(username) {
     })
     .then(data => {
         // Lấy container của playlists
-        console.log(data);
+        all_playlists = data;
+        console.log(all_playlists);
+
         const playlistContainer = document.getElementById('myPlaylistContainer');
 
         // Loop through the data and create playlist items
@@ -53,13 +61,13 @@ function fetchownPlaylists(username) {
             button.addEventListener('click', function () {
                 const playlist_name_clicked = button.closest('li').querySelector('h5').textContent;
                 const playPauseBtn = document.getElementById('playPauseBtn');
-                playPauseBtn.classList.add("bi-pause-circle-fill");
                 playPauseBtn.classList.remove("bi-play-circle-fill");
+                playPauseBtn.classList.add("bi-pause-circle-fill");
+
                 fetchSongsfromPlaylist(playlist_name_clicked)
                     .then(song_list => {
-                        localStorage.setItem('current_playlist', playlist_name_clicked);
-
                         console.log(song_list);
+                        current_index = 0;
                         playPlaylistSongs(playlist_name_clicked,song_list);
                     })
                     .catch(error => {
@@ -166,74 +174,180 @@ function fetchUserInfo(username){
     })
 
 }
-var audioPlayer = new Audio()
 
 
 function playPlaylistSongs(playlist_name_clicked, playlistData) {
 
     const baseAudioPath = `audio/${playlist_name_clicked}`.replace(/\/$/, "");
     const songs = playlistData.map(song => `${baseAudioPath}/${song}.mp3`);
+    current_playlists = songs;
+
     console.log(songs);
 
-    let currentIndex = 0;
+    // let currentIndex = 0;
 
-    console.log(songs[currentIndex]);
 
-    audioPlayer.playbackRate = 2.0 || 1.0;
+    audioPlayer.playbackRate = 4.0 || 1.0;
 
-    audioPlayer.src = songs[currentIndex]
+    audioPlayer.src = songs[current_index]
     audioPlayer.play();
 
     audioPlayer.addEventListener('ended', function(){
-        currentIndex ++;
+        current_index ++;
 
-        if (currentIndex < songs.length) {
-            console.log(songs[currentIndex]);
+        if (current_index < songs.length) {
+            console.log(songs[current_index]);
 
-            audioPlayer.src = songs[currentIndex];
+            audioPlayer.src = songs[current_index];
             audioPlayer.play();
         }
         else {
             console.log('Playlist ended');
+            const playlistNames = Object.keys(all_playlists);
+            const currentIndexInNames = playlistNames.indexOf(playlist_name_clicked);
+
+            if (currentIndexInNames < playlistNames.length - 1) {
+                // Move to the next playlist
+                const nextPlaylistName = playlistNames[currentIndexInNames + 1];
+                console.log(nextPlaylistName);
+                current_index = 0;
+                fetchSongsfromPlaylist(nextPlaylistName)
+                    .then(song_list => {
+                        console.log(song_list);
+                        playPlaylistSongs(nextPlaylistName,song_list);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching songs:', error);
+                    });
+            }
+            else {
+                console.log('All playlists ended');
+
+            }
         }
     });
 }
 
+// ----------------------------------------------------------------
+// Controler bar
 
 function pause() {
     const playPauseBtn = document.getElementById('playPauseBtn');
 
     if (audioPlayer.paused) {
         audioPlayer.play();
-        playPauseBtn.classList.add("bi-play-circle-fill");
-        playPauseBtn.classList.remove("bi-pause-circle-fill");
+        console.log('Paused');
+        playPauseBtn.classList.remove("bi-play-circle-fill");
+        playPauseBtn.classList.add("bi-pause-circle-fill");
     }
     else {
         audioPlayer.pause();
-        playPauseBtn.classList.add("bi-pause-circle-fill");
-        playPauseBtn.classList.remove("bi-play-circle-fill");
+        console.log("Play")
+        playPauseBtn.classList.remove("bi-pause-circle-fill");
+        playPauseBtn.classList.add("bi-play-circle-fill");
     }
 }
 
 
-// function controlSeekBar() {
-//     const seekBar = document.getElementById('seekBar');
+function nextsong() {
+    current_index++;
+    console.log(current_playlists[current_index]);
+    audioPlayer.pause();
 
-//     // Update the seek bar value when the audio is playing
-//     audioPlayer.addEventListener('timeupdate', function () {
-//         const currentTime = audioPlayer.currentTime;
-//         const duration = audioPlayer.duration;
+    if (current_index < current_playlists.length) {
+        audioPlayer.src = current_playlists[current_index];
+        audioPlayer.play();
+    } else {
+        console.log('Playlist ended');
+    }
+}
 
-//         // Calculate the percentage of the track played
-//         const progress = (currentTime / duration) * 100;
 
-//         // Update the seek bar value
-//         seekBar.value = progress;
-//     });
+function previoussong() {
+    current_index--;
 
-//     // Change the audio playback position when the user interacts with the seek bar
-//     seekBar.addEventListener('input', function () {
-//         const seekPosition = (seekBar.value / 100) * audioPlayer.duration;
-//         audioPlayer.currentTime = seekPosition;
-//     });
-// }
+    if (current_index >= 0 && current_index < current_playlists.length) {
+        console.log(current_playlists[current_index]);
+        audioPlayer.pause();
+        audioPlayer.src = current_playlists[current_index];
+        audioPlayer.play();
+    } else {
+        console.log('No previous song available');
+        current_index = 0; // Reset to the beginning if there is no previous song
+    }
+}
+
+
+
+function controlSeekBar() {
+    const seekBar = document.getElementById('seekBar');
+    const playedColor = '#3bdcd2'; 
+    const remainingColor = '#ccc';  
+
+    audioPlayer.addEventListener('timeupdate', function () {
+        const currentTime = audioPlayer.currentTime;
+        const duration = audioPlayer.duration;
+
+        const progress = (currentTime / duration) * 100;
+
+        seekBar.value = progress;
+
+        seekBar.style.background = `linear-gradient(90deg, ${playedColor} ${progress}%, ${remainingColor} ${progress}%, ${remainingColor} ${100 - progress}%)`;
+    });
+
+    seekBar.addEventListener('input', function () {
+        const seekPosition = (seekBar.value / 100) * audioPlayer.duration;
+        audioPlayer.currentTime = seekPosition;
+    });
+
+    seekBar.addEventListener('mousedown', function () {
+        audioPlayer.pause(); 
+    });
+
+    seekBar.addEventListener('mouseup', function () {
+        audioPlayer.play();
+    });
+}
+
+
+
+function controlVolume() {
+    const volumeBar = document.getElementById('volumeBar');
+    const volumeIcon = document.getElementById('volumeIcon');
+    const mutedColor = '#3bdcd2';
+
+    // Set the initial background color
+    volumeBar.style.background = `linear-gradient(90deg, ${mutedColor} ${volumeBar.value}%, transparent ${volumeBar.value}%)`;
+
+    audioPlayer.addEventListener('volumechange', function () {
+        const volume = audioPlayer.volume * 100;
+        volumeBar.value = volume;
+
+        if (audioPlayer.muted) {
+            volumeIcon.style.color = mutedColor;
+        } else {
+            volumeIcon.style.color = ''; 
+        }
+    });
+
+    volumeBar.addEventListener('input', function () {
+        const volumeLevel = volumeBar.value / 100;
+        audioPlayer.volume = volumeLevel;
+        audioPlayer.muted = false;  
+        volumeBar.style.background = `linear-gradient(90deg, ${mutedColor} ${volumeBar.value}%, transparent ${volumeBar.value}%)`;
+    });
+
+    volumeIcon.addEventListener('click', function () {
+        audioPlayer.muted = !audioPlayer.muted;
+
+        if (audioPlayer.muted) {
+            volumeIcon.style.color = mutedColor;
+        } else {
+            volumeIcon.style.color = '';  
+        }
+    });
+}
+// ----------------------------------------------------------------
+
+
+
