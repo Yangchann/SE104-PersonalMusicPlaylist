@@ -3,46 +3,49 @@ from pydantic import BaseModel, Field
 from database import SessionLocal
 from typing import Annotated
 from models import Users
-
+import json
 # from models import Playlist
 from sqlalchemy.orm import Session
 # from models import Playlist
 import os
 
 router = APIRouter()
-Playlists = {
-    "Suy": {
-        "title": "Suy", 
-         "imageUrl": "img/1.jpg",
-        "songslist": ["Chúng ta không thuộc về nhau", "Em của ngày hôm qua"]
-        },
-    "Yêu đời": {
-        "title": "Yêu đời", 
-         "imageUrl": "img/2.jpg",
-         "songslist": ["Chúng ta không thuộc về nhau", "Em của ngày hôm qua"]
-        },
+
+with open("playlists.json", "r", encoding="utf-8") as json_file:
+    Playlists = json.load(json_file)
+# Playlists = {
+#     "Suy": {
+#         "title": "Suy", 
+#          "imageUrl": "img/1.jpg",
+#         "songslist": ["Chúng ta không thuộc về nhau", "Em của ngày hôm qua"]
+#         },
+#     "Yêu đời": {
+#         "title": "Yêu đời", 
+#          "imageUrl": "img/2.jpg",
+#          "songslist": ["Chúng ta không thuộc về nhau", "Em của ngày hôm qua"]
+#         },
     
-    "Cờ bạc": {
-        "title": "Cờ bạc", 
-        "imageUrl": "img/3.jpg",
-        "songslist": ["Chúng ta không thuộc về nhau", "Em của ngày hôm qua"]
-        },
-    "Bolero": {
-        "title": "Bolero", 
-        "imageUrl": "img/4.jpg",
-        "songslist": ["Chúng ta không thuộc về nhau", "Em của ngày hôm qua"]
-        },
-    "Hip hop": {
-        "title": "Hip hop", 
-         "imageUrl": "img/2.jpg",
-         "songslist": ["Chúng ta không thuộc về nhau", "Em của ngày hôm qua"]
-        },
-    "Cải lương": {
-        "title": "Cải lương", 
-         "imageUrl": "img/2.jpg",
-         "songslist": ["Chúng ta không thuộc về nhau", "Em của ngày hôm qua"]
-        },  
-    }
+#     "Cờ bạc": {
+#         "title": "Cờ bạc", 
+#         "imageUrl": "img/3.jpg",
+#         "songslist": ["Chúng ta không thuộc về nhau", "Em của ngày hôm qua"]
+#         },
+#     "Bolero": {
+#         "title": "Bolero", 
+#         "imageUrl": "img/4.jpg",
+#         "songslist": ["Chúng ta không thuộc về nhau", "Em của ngày hôm qua"]
+#         },
+#     "Hip hop": {
+#         "title": "Hip hop", 
+#          "imageUrl": "img/2.jpg",
+#          "songslist": ["Chúng ta không thuộc về nhau", "Em của ngày hôm qua"]
+#         },
+#     "Cải lương": {
+#         "title": "Cải lương", 
+#          "imageUrl": "img/2.jpg",
+#          "songslist": ["Chúng ta không thuộc về nhau", "Em của ngày hôm qua"]
+#         },  
+#     }
 
 
 
@@ -151,4 +154,9 @@ async def take_recently_playlists(username: str, db: db_dependency):
     return recently_playlists
 
     
-# @router.get("/playlists/")
+@router.get("/playlists/take_songs_list/{playlist_name}")
+async def take_songs_list_from_playlist_name(playlist_name: str, db: db_dependency):
+    
+    # replace by database
+    return Playlists[playlist_name]["songslist"]    
+    
