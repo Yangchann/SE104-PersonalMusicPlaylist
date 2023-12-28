@@ -28,6 +28,7 @@ function signup(event) {
     var password = document.getElementById("password").value;
     var first_name = document.getElementById("first_name").value;
     var last_name = document.getElementById("last_name").value;
+    var confirm_password = document.getElementById("confirm_password").value
 
     var Data_request = {
         username: username,
@@ -37,7 +38,7 @@ function signup(event) {
 
     };
 // gửi request url
-    fetch('http://127.0.0.1:8001/auth/signup', { 
+    fetch('http://127.0.0.1:8001/auth/signup', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -57,7 +58,7 @@ function signup(event) {
 
             // Redirect to login page after a delay (e.g., 2000 milliseconds or 2 seconds)
             setTimeout(function () {
-                window.location.href = 'login.html'; 
+                window.location.href = 'login.html';
             }, 2000);
         })
         .catch(error => {
@@ -97,7 +98,7 @@ function login(event) {
             $('#successModal').modal('show');
 
             setTimeout(function () {
-                window.location.href = 'index.html'; 
+                window.location.href = 'index.html';
             }, 2000);
         })
         .catch(error => {
@@ -117,3 +118,16 @@ function login(event) {
 //         document.body.appendChild(element);
 //     }
 // }
+
+function check_signup_password() {
+    var password = document.getElementById('password').value;
+    var confirmPassword = document.getElementById('confirm_password').value;
+
+    if (password === confirmPassword) {
+        // Thực hiện các bước tiếp theo (nếu có)
+    } else {
+        alert('Password does not match. Please try again.');
+        // Xoá giá trị trong ô confirm password để người dùng nhập lại
+        document.getElementById('confirm_password').value = '';
+    }
+}
