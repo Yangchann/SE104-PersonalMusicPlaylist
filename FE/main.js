@@ -54,10 +54,7 @@ function fetchownPlaylists(username) {
                         <div class="option" onclick="deletePlaylist(event)">Delete Playlist</div>
                     </div>
                 </div>
-                <h5>${title}
-                    <br>
-                    <div class="subtitle">Subtitle</div>
-                </h5>`;
+                <h5>${title}</h5>`;
             // Append the playlist item to the container
             playlistContainer.appendChild(playlistItem);
         }
@@ -66,10 +63,12 @@ function fetchownPlaylists(username) {
         playButtons.forEach(button => {
             button.addEventListener('click', function () {
                 const playlist_name_clicked = button.closest('li').querySelector('h5').textContent;
+                console.log(playlist_name_clicked);
                 const playPauseBtn = document.getElementById('playPauseBtn');
                 playPauseBtn.classList.remove("bi-play-circle-fill");
                 playPauseBtn.classList.add("bi-pause-circle-fill");
                 
+                console.log(all_playlists[playlist_name_clicked]);
                 document.getElementById('CurrentPlaylistImage').src = all_playlists[playlist_name_clicked]["imageUrl"];
                 
                 document.querySelector('.music-control-bar').style.display = 'flex';
