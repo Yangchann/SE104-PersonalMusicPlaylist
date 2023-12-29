@@ -66,7 +66,8 @@ function fetchownPlaylists(username) {
                 playPauseBtn.classList.add("bi-pause-circle-fill");
                 
                 document.getElementById('CurrentPlaylistImage').src = all_playlists[playlist_name_clicked]["imageUrl"];
-                // console.log(all_playlists[playlist_name_clicked]["imageUrl"]);
+                
+                document.querySelector('.music-control-bar').style.display = 'flex';
 
                 fetchSongsfromPlaylist(playlist_name_clicked)
                     .then(song_list => {
@@ -183,60 +184,77 @@ function fetchUserInfo(username){
 
 
 function playPlaylistSongs(playlist_name_clicked, playlistData) {
-
     const baseAudioPath = `audio/${playlist_name_clicked}`.replace(/\/$/, "");
     const songs = playlistData.map(song => `${baseAudioPath}/${song}.mp3`);
     current_playlists = songs;
 
-    console.log(songs);
-
-    // let currentIndex = 0;
-
+    // Set the current song title with a tooltip
+    const currentSongTitleElem = document.getElementById('CurrentSongTitle');
+    const tooltipContent = current_playlists[current_index];
+    const fileName = getFileName(tooltipContent);
+    currentSongTitleElem.textContent = truncateSongName(fileName);
+    currentSongTitleElem.title = fileName;
 
     audioPlayer.playbackRate = 4.0 || 1.0;
 
-    audioPlayer.src = songs[current_index]
+    audioPlayer.src = songs[current_index];
     audioPlayer.play();
 
-    audioPlayer.addEventListener('ended', function(){
-        current_index ++;
+    audioPlayer.addEventListener('ended', function () {
+        current_index++;
 
         if (current_index < songs.length) {
-            console.log(songs[current_index]);
-
             audioPlayer.src = songs[current_index];
-            document.getElementById('CurrentSongTitle').textContent = songs[current_index];
+            const nextFileName = getFileName(songs[current_index]);
+            document.getElementById('CurrentSongTitle').textContent = truncateSongName(nextFileName);
 
             audioPlayer.play();
-        }
-        else {
-            console.log('Playlist ended');
+        } else {
             const playlistNames = Object.keys(all_playlists);
             const currentIndexInNames = playlistNames.indexOf(playlist_name_clicked);
 
             if (currentIndexInNames < playlistNames.length - 1) {
-                // Move to the next playlist
                 const nextPlaylistName = playlistNames[currentIndexInNames + 1];
                 document.getElementById('CurrentSongTitle').textContent = nextPlaylistName;
                 document.getElementById('CurrentPlaylistImage').src = all_playlists[nextPlaylistName]["imageUrl"];
-                console.log(nextPlaylistName);
                 current_index = 0;
+
                 fetchSongsfromPlaylist(nextPlaylistName)
                     .then(song_list => {
-                        console.log(song_list);
-                        playPlaylistSongs(nextPlaylistName,song_list);
+                        playPlaylistSongs(nextPlaylistName, song_list);
                     })
                     .catch(error => {
                         console.error('Error fetching songs:', error);
                     });
-            }
-            else {
+            } else {
                 console.log('All playlists ended');
-
             }
         }
+
+        // Set the current song title with a tooltip
+        const tooltipContent = current_playlists[current_index];
+        const fileName = getFileName(tooltipContent);
+        currentSongTitleElem.textContent = truncateSongName(fileName);
+        currentSongTitleElem.title = fileName;
     });
+
+    // Function to truncate long song names
+    function truncateSongName(songName) {
+        const maxLength = 25; 
+        if (songName.length > maxLength) {
+            return songName.substring(0, maxLength - 3) + '...';
+        }
+        return songName;
+    }
+
+    function getFileName(path) {
+        const fileNameWithExtension = path.split('/').pop();
+        return fileNameWithExtension.replace('.mp3', '');
+    }
 }
+
+
+
 
 // ----------------------------------------------------------------
 // Controler bar
@@ -261,7 +279,6 @@ function pause() {
 
 function nextsong() {
     current_index++;
-    console.log(current_playlists[current_index]);
     audioPlayer.pause();
 
     if (current_index < current_playlists.length) {
@@ -271,9 +288,10 @@ function nextsong() {
         audioPlayer.play();
     } else {
         console.log('Playlist ended');
+        showNotification('End of playlist');
+        current_index = 0; // Reset to the beginning
     }
 }
-
 
 function previoussong() {
     current_index--;
@@ -287,8 +305,23 @@ function previoussong() {
         audioPlayer.play();
     } else {
         console.log('No previous song available');
-        current_index = 0; // Reset to the beginning if there is no previous song
+        showNotification('No previous song');
+        current_index = 0; // Reset to the beginning
     }
+}
+
+function showNotification(message, type = 'info') {
+    toastr.options = {
+        "positionClass": "toast-bottom-right",
+        "preventDuplicates": true,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "closeButton": true
+    };
+
+    toastr[type](message);
 }
 
 

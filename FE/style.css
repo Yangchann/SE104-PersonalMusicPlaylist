@@ -489,11 +489,11 @@ header .song_side nav .search input{
 
 
   .music-control-bar {
-    display: flex;
+    display: none; /* Initially hide the music control bar */
     align-items: center;
     justify-content: space-between;
     padding: 10px;
-    background-color: #053248; 
+    background-color: #053248;
     color: #fff;
     width: 75%;
     position: fixed;
@@ -506,7 +506,7 @@ header .song_side nav .search input{
 }
 
 .playlist-info img {
-    width: 30px; /* Điều chỉnh kích thước hình của playlist nếu cần thiết */
+    width: 30px;
     height: 30px;
     margin-right: 10px;
 }
@@ -520,15 +520,15 @@ header .song_side nav .search input{
 
 .controls i,
 .volume-control i {
-    font-size: 1.5em; 
+    font-size: 1.5em;
     cursor: pointer;
     margin: 0 8px;
-    transition: color 0.3s; 
+    transition: color 0.3s;
 }
 
 .controls i:hover,
 .volume-control i:hover {
-    color: #3bdcd2; 
+    color: #3bdcd2;
 }
 
 .progress-bar input,
@@ -540,7 +540,7 @@ input[type="range"] {
     -webkit-appearance: none;
     appearance: none;
     height: 8px;
-    background: #555; 
+    background: #555;
     outline: none;
     opacity: 0.7;
     transition: opacity .2s;
@@ -553,7 +553,7 @@ input[type="range"]::-webkit-slider-thumb {
     appearance: none;
     width: 16px;
     height: 16px;
-    background: #0cc8bb; 
+    background: #0cc8bb;
     cursor: pointer;
     border-radius: 50%;
 }
@@ -568,7 +568,11 @@ input[type="range"]:hover {
 }
 
 .song-title {
-    font-size: 14px; /* Điều chỉnh kích thước font cho tên bài hát nếu cần thiết */
+    font-size: 14px;
+}
+
+.show-control-bar .music-control-bar {
+    display: flex;
 }
 
 
