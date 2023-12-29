@@ -363,6 +363,25 @@ function changeInfo(fieldName) {
 function doneEditing() {
     document.getElementById('editForm').style.display = 'none';
 }
+// ------------------------------------------------------------------
+// Component add/delete playlist
+function toggleOptions() {
+    var options = document.getElementById('options');
+    options.style.display = options.style.display === 'block' ? 'none' : 'block';
+}
+
+function addPlaylist() {
+    alert('Add Playlist option selected');
+}
+
+function deletePlaylist() {
+    alert('Delete Playlist option selected');
+}
+
+
+var options = document.getElementById('options');
+
+options.addEventListener('mouseleave', function() { options.style.display = 'none';});
 
 
 

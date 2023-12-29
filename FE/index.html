@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="img/notnhac.svg" type="image/svg+xml">
+    <link rel="icon" href="/img/notnhac.svg" type="image/svg+xml">
     <title>Love Music</title>
 </head>
 <body>
@@ -13,7 +13,7 @@
         <div class="menu_side">
             <div class="logo">
                 <div class="img_logo">
-                    <img src="img/logo.svg" alt="Logo" title="Logo">
+                    <img src="/img/logo.svg" alt="Logo" title="Logo">
                 </div>
                 <div class="web_name">Love Music</div>
             </div>
@@ -33,12 +33,12 @@
                     <input type="text" placeholder="Search Music...">
                 </div>
                 <div class="user">
-                    <img src="img/avatar.jpg" alt="User" title="GiangTran" onclick="showEditForm()">
+                    <img src="/img/avatar.jpg" alt="User" title="GiangTran" onclick="showEditForm()">
                 </div>
             </nav>
             <div class="profile">
                 <div class="ava">
-                    <img src="img/avatar.jpg" alt="Avatar" title="GiangTran">
+                    <img src="/img/avatar.jpg" alt="Avatar" title="GiangTran">
                 </div>
                 <div class="username">Giang Tran</div>
             </div>
@@ -54,8 +54,13 @@
                 <div class="playlists">
                     <li class="songItem">
                         <div class="img_play">
-                            <img src="img/1.jpg" alt="alan">
+                            <img src="/img/1.jpg" alt="alan">
                             <i class="bi playListPlay bi-play-circle-fill" id="7"></i>
+                            <div class="dots" id="dotContainer" onclick="toggleOptions()"><i class="bi bi-three-dots-vertical"></i></div>
+                            <div class="options" id="options">
+                                <div class="option" onclick="addPlaylist()">Add Playlist</div>
+                                <div class="option" onclick="deletePlaylist()">Delete Playlist</div>
+                            </div>
                         </div>
                         <h5>Yêu Đời
                             <br>
@@ -64,8 +69,13 @@
                     </li>
                     <li class="songItem">
                         <div class="img_play">
-                            <img src="img/2.jpg" alt="alan">
+                            <img src="/img/2.jpg" alt="alan">
                             <i class="bi playListPlay bi-play-circle-fill" id="8"></i>
+                            <div class="dots" id="dotContainer" onclick="toggleOptions()"><i class="bi bi-three-dots-vertical"></i></div>
+                            <div class="options" id="options">
+                                <div class="option" onclick="addPlaylist()">Add Playlist</div>
+                                <div class="option" onclick="deletePlaylist()">Delete Playlist</div>
+                            </div>
                         </div>
                         <h5>Hẹn hò
                             <br>
@@ -74,72 +84,12 @@
                     </li>
                     <li class="songItem">
                         <div class="img_play">
-                            <img src="img/3.jpg" alt="alan">
+                            <img src="/img/3.jpg" alt="alan">
                             <i class="bi playListPlay bi-play-circle-fill" id="9"></i>
                         </div>
                         <h5>Suy
                             <br>
                             <div class="subtitle">Subtitle</div>
-                        </h5>
-                    </li>
-                    <li class="songItem">
-                        <div class="img_play">
-                            <img src="img/1.jpg" alt="alan">
-                            <i class="bi playListPlay bi-play-circle-fill" id="10"></i>
-                        </div>
-                        <h5>On My Way
-                            <br>
-                            <div class="subtitle">Alan Walker</div>
-                        </h5>
-                    </li>
-                    <li class="songItem">
-                        <div class="img_play">
-                            <img src="img/1.jpg" alt="alan">
-                            <i class="bi playListPlay bi-play-circle-fill" id="11"></i>
-                        </div>
-                        <h5>On My Way
-                            <br>
-                            <div class="subtitle">Alan Walker</div>
-                        </h5>
-                    </li>
-                    <li class="songItem">
-                        <div class="img_play">
-                            <img src="img/1.jpg" alt="alan">
-                            <i class="bi playListPlay bi-play-circle-fill" id="12"></i>
-                        </div>
-                        <h5>On My Way
-                            <br>
-                            <div class="subtitle">Alan Walker</div>
-                        </h5>
-                    </li>
-                    <li class="songItem">
-                        <div class="img_play">
-                            <img src="img/1.jpg" alt="alan">
-                            <i class="bi playListPlay bi-play-circle-fill" id="13"></i>
-                        </div>
-                        <h5>On My Way
-                            <br>
-                            <div class="subtitle">Alan Walker</div>
-                        </h5>
-                    </li>
-                    <li class="songItem">
-                        <div class="img_play">
-                            <img src="img/1.jpg" alt="alan">
-                            <i class="bi playListPlay bi-play-circle-fill" id="14"></i>
-                        </div>
-                        <h5>On My Way
-                            <br>
-                            <div class="subtitle">Alan Walker</div>
-                        </h5>
-                    </li>
-                    <li class="songItem">
-                        <div class="img_play">
-                            <img src="img/1.jpg" alt="alan">
-                            <i class="bi playListPlay bi-play-circle-fill" id="15"></i>
-                        </div>
-                        <h5>On My Way
-                            <br>
-                            <div class="subtitle">Alan Walker</div>
                         </h5>
                     </li>
                 </div>
@@ -157,7 +107,7 @@
                 <div class="playlists">
                     <li class="songItem">
                         <div class="img_play">
-                            <img src="img/1.jpg" alt="alan">
+                            <img src="/img/1.jpg" alt="alan">
                             <i class="bi playListPlay bi-play-circle-fill" id="7"></i>
                         </div>
                         <h5>Song 1
@@ -167,7 +117,7 @@
                     </li>
                     <li class="songItem">
                         <div class="img_play">
-                            <img src="img/2.jpg" alt="alan">
+                            <img src="/img/2.jpg" alt="alan">
                             <i class="bi playListPlay bi-play-circle-fill" id="8"></i>
                         </div>
                         <h5>Song 2
@@ -177,7 +127,7 @@
                     </li>
                     <li class="songItem">
                         <div class="img_play">
-                            <img src="img/3.jpg" alt="alan">
+                            <img src="/img/3.jpg" alt="alan">
                             <i class="bi playListPlay bi-play-circle-fill" id="9"></i>
                         </div>
                         <h5>Song 3
@@ -187,7 +137,7 @@
                     </li>
                     <li class="songItem">
                         <div class="img_play">
-                            <img src="img/1.jpg" alt="alan">
+                            <img src="/img/1.jpg" alt="alan">
                             <i class="bi playListPlay bi-play-circle-fill" id="10"></i>
                         </div>
                         <h5>On My Way
@@ -197,7 +147,7 @@
                     </li>
                     <li class="songItem">
                         <div class="img_play">
-                            <img src="img/1.jpg" alt="alan">
+                            <img src="/img/1.jpg" alt="alan">
                             <i class="bi playListPlay bi-play-circle-fill" id="11"></i>
                         </div>
                         <h5>On My Way
@@ -207,7 +157,7 @@
                     </li>
                     <li class="songItem">
                         <div class="img_play">
-                            <img src="img/1.jpg" alt="alan">
+                            <img src="/img/1.jpg" alt="alan">
                             <i class="bi playListPlay bi-play-circle-fill" id="12"></i>
                         </div>
                         <h5>On My Way
@@ -217,7 +167,7 @@
                     </li>
                     <li class="songItem">
                         <div class="img_play">
-                            <img src="img/1.jpg" alt="alan">
+                            <img src="/img/1.jpg" alt="alan">
                             <i class="bi playListPlay bi-play-circle-fill" id="13"></i>
                         </div>
                         <h5>On My Way
@@ -227,7 +177,7 @@
                     </li>
                     <li class="songItem">
                         <div class="img_play">
-                            <img src="img/1.jpg" alt="alan">
+                            <img src="/img/1.jpg" alt="alan">
                             <i class="bi playListPlay bi-play-circle-fill" id="14"></i>
                         </div>
                         <h5>On My Way
@@ -237,7 +187,7 @@
                     </li>
                     <li class="songItem">
                         <div class="img_play">
-                            <img src="img/1.jpg" alt="alan">
+                            <img src="/img/1.jpg" alt="alan">
                             <i class="bi playListPlay bi-play-circle-fill" id="15"></i>
                         </div>
                         <h5>On My Way

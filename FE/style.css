@@ -266,32 +266,35 @@ header .song_side nav .search input{
      display: none;
      position: absolute;
      top: 50%;
-     left: 50%;
+     left: 60%;
      transform: translate(-50%, -50%);
-     padding: 20px;
+     padding: 15px;
      border-radius: 10px;
-     background-color: #fff;
-     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+     background-color: rgba(255, 255, 255, 0.2);
      text-align: center;
+     backdrop-filter: blur(5px);
  }
 
-.edit-form h2 {
+.edit-form h4 {
     font-size: 35px;
     margin-bottom: 20px;
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
  .edit-form label {
      display: block;
      margin-bottom: 8px;
-     margin-right: 10px;
+     margin-right: 15px;
      white-space: nowrap;
+     color: #fff;
 
  }
 
  .edit-form input {
      width: calc(100% - 24px);
      border-radius: 6px;
-     border: 1px solid black;
+     border: none;
      padding: 8px;
      margin-bottom: 16px;
      box-sizing: border-box;
@@ -304,9 +307,9 @@ header .song_side nav .search input{
  }
 
  .edit-form button {
-     background-color: #1765a4;
+     background-color: #187993;
      color: white;
-     margin: 10px;
+     margin: 15px;
      margin-bottom: 27px;
      padding: 8px 12px;
      border: none;
@@ -315,7 +318,7 @@ header .song_side nav .search input{
  }
 
  .edit-form button:hover {
-     background-color: #071b46;
+     background-color: #12576b;
  }
 
  header .song_side .my_playlist {
@@ -362,7 +365,7 @@ header .song_side nav .search input{
      list-style-type: none;
      margin-right: 40px;
      transition: .3s linear;
-     background-color: antiquewhite;
+     background-color: rgb(47, 54, 78);
  }
 
  header .song_side .my_playlist .playlists li:hover {
@@ -410,6 +413,54 @@ header .song_side nav .search input{
      margin-top: 3px;
      color: #4c5262;
  }
+
+ /* ------------------ */
+ #image {
+     cursor: pointer;
+ }
+
+ .img_play .dots {
+     position: absolute;
+     top: 10px;
+     right: 22px;
+     display: flex;
+     flex-direction: column;
+     gap: 5px;
+     cursor: pointer;
+ }
+
+ .dots bi {
+     margin: 0;
+     padding: 0;
+     color: #fff;
+ }
+
+ .img_play .options {
+     display: none;
+     position: absolute;
+     top: 5px;
+     right: 22px;
+     background-color: rgba(7, 19, 23, 0.6);
+     box-shadow: 0 0 10px rgba(236, 235, 235, 0.1);
+     /* padding: 5px; */
+     border-radius: 2px;
+     z-index: 1;
+ }
+
+ .option {
+     cursor: pointer;
+     font-size: 13px;
+     color: #ece8e8;
+     padding: 2px;
+     /* margin-bottom: 2px; */
+     transition: background-color 0.3s;
+     border-radius: 2px;
+ }
+
+ .option:hover {
+     background-color: #f0f0f0;
+ }
+ /* ------------------ */
 
   header .song_side .favourite_songs {
       width: 100%;
