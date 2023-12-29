@@ -638,3 +638,58 @@ input[type="range"]:hover {
 .edit-form button:hover {
     background-color: #071b46;
 }
+
+/* --------------------- */
+#image {
+    cursor: pointer;
+}
+
+.img_play .dots {
+    position: absolute;
+    top: 10px;
+    right: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.dots bi {
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
+}
+
+.img_play:hover .dots {  
+    display: flex;
+}
+
+.img_play .options {
+    display: none;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(7, 19, 23, 0.6);
+    box-shadow: 0 0 10px rgba(236, 235, 235, 0.1);
+    border-radius: 2px;
+    z-index: 1;
+}
+
+.img_play:hover .options { 
+    display: block;
+}
+
+.option {
+    cursor: pointer;
+    font-size: 13px;
+    color: #ece8e8;
+    padding: 5px;
+    transition: background-color 0.3s;
+    border-radius: 2px;
+}
+
+.option:hover {
+    background-color: 0 0 10px rgba(236, 235, 235, 0.1);;
+    color: #3bdcd2;
+}
+/* ------------------ */

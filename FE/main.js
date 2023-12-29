@@ -46,13 +46,18 @@ function fetchownPlaylists(username) {
             const playlistItem = document.createElement('li');
             playlistItem.className = 'Item';
             playlistItem.innerHTML = `
-                <div class="img_play">
+                <div class="img_play" data-playlist-id="${key}">
                     <img src="${imageUrl}" alt="alan">
                     <i id="playbtn" class="bi playListPlay bi-play-circle-fill"></i>
+                    <div class="dots" id="dotContainer" onclick="toggleOptions(event)"></div>
+                    <div class="options" id="options" onclick="handleOptionsClick(event)">
+                        <div class="option" onclick="deletePlaylist(event)">Delete Playlist</div>
+                    </div>
                 </div>
-                <h5>${title}</h5>
-            `;
-
+                <h5>${title}
+                    <br>
+                    <div class="subtitle">Subtitle</div>
+                </h5>`;
             // Append the playlist item to the container
             playlistContainer.appendChild(playlistItem);
         }
@@ -116,6 +121,11 @@ function fetchRecentlyPlaylists(username) {
                 <div class="img_play">
                     <img src="${imageUrl}" alt="alan">
                     <i id="playbtn" class="bi playListPlay bi-play-circle-fill"></i>
+                    <div class="dots" id="dotContainer" onclick="toggleOptions()"><i class="bi bi-three-dots-vertical"></i></div>
+                    <div class="options" id="options">
+                        <div class="option" onclick="addPlaylist()">Add Playlist</div>
+                        <div class="option" onclick="deletePlaylist()">Delete Playlist</div>
+                    </div>
                 </div>
                 <h5>${title}
                     <br>
@@ -423,5 +433,26 @@ function showEditForm() {
 
 function doneEditing() {
     document.getElementById('editForm').style.display = 'none';
+}
+
+
+// ------------------------------------------------------------------
+// Component add/delete playlist
+// function toggleOptions() {
+//     const optionsMenu = document.getElementById('options');
+//     optionsMenu.style.display = optionsMenu.style.display === 'block' ? 'none' : 'block';
+// }
+
+// function addPlaylist() {
+//     alert('Add Playlist option selected');
+// }
+
+function deletePlaylist(event) {
+    event.stopPropagation(); 
+    const imgPlayElement = event.target.closest('.img_play');
+    const playlistId = imgPlayElement.dataset.playlistId;
+    playlistElement = document.querySelector(`.img_play[data-playlist-id="${playlistId}"]`).closest('li');
+
+    playlistElement.remove();
 }
 
