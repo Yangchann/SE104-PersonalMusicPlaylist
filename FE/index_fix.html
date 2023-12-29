@@ -5,11 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="style.css">
     <title>Love Music</title>
 </head>
 <body>
     <header>
+
+        
+
+
         <div class="menu_side">
             <div class="logo">
                 <div class="img_logo">
@@ -27,14 +31,16 @@
         </div>
 
         <div class="song_side">
-            <nav>
+            <nav id="navbar">
                 <div class="search">
                     <i class="bi bi-search"></i>
                     <input type="text" placeholder="Search Music...">
                 </div>
 
                 <!-- fetch user infor-->
-
+                <!-- <div class="user">
+                    <img src="" alt="User" title="" id="userImage" onclick="showEditForm()">
+                </div> -->
                 <div class="user">
                     <img src="" alt="User" title="" id="userImage" onclick="showEditForm()">
                 </div>
@@ -43,6 +49,7 @@
                 <div class="ava">
                     <img src="" alt="Avatar" title="" id="userImage_1">
                 </div>
+                
                 <div class="username" id="username"></div>
             </div>
 
@@ -78,9 +85,30 @@
             <!-- End Playlist Components -->
 
             <!-- Audio COntrol -->
-            <div class="music-control-bar">
+            <!-- <div class="music-control-bar">
                 <div class="controls">
-                    <i id="prevBtn" class="bi bi-skip-backward-fill" onclick="prevsong()"></i>
+                    <i id="prevBtn" class="bi bi-skip-backward-fill" onclick="previoussong()"></i>
+                    <i id="playPauseBtn" class="bi bi-play-circle-fill" onclick="pause()"></i>
+                    <i id="nextBtn" class="bi bi-skip-forward-fill" onclick="nextsong()"></i>
+                </div>
+                <div class="progress-bar">
+                    <input type="range" id="seekBar" value="0" max="100">
+                </div>
+                <div class="volume-control">
+                    <i id="volumeIcon" class="bi bi-volume-up-fill"></i>
+                    <input type="range" id="volumeBar" value="100" max="100">
+                </div>
+            </div> -->
+
+
+            <div class="music-control-bar">
+                <div class="playlist-info">
+                    <!-- Thêm hình của playlist và tên bài hát ở đây -->
+                    <img src="" id="CurrentPlaylistImage">
+                    <span class="song-title" id="CurrentSongTitle"></span>
+                </div>
+                <div class="controls">
+                    <i id="prevBtn" class="bi bi-skip-backward-fill" onclick="previoussong()"></i>
                     <i id="playPauseBtn" class="bi bi-play-circle-fill" onclick="pause()"></i>
                     <i id="nextBtn" class="bi bi-skip-forward-fill" onclick="nextsong()"></i>
                 </div>
@@ -92,11 +120,13 @@
                     <input type="range" id="volumeBar" value="100" max="100">
                 </div>
             </div>
-
+            
 
         </div>
-        <div class="edit-form" id="editForm">
-            <h4>Edit Profile</h4>
+
+
+                <div class="edit-form" id="editForm">
+            <h2>Edit Profile</h2>
 
             <div class="form-group">
                 <label for="firstName">First Name</label>
@@ -124,6 +154,8 @@
 
             <button onclick="doneEditing()">Done</button>
         </div>
+
+
     </header>x1
     <script src='main.js'></script></body>
 </html>

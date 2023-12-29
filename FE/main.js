@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
 current_playlists = []
 all_playlists = []
 current_index = 0
+// playlist_name_clicked = ""
 var audioPlayer = new Audio()
 
 function fetchownPlaylists(username) {
@@ -63,11 +64,16 @@ function fetchownPlaylists(username) {
                 const playPauseBtn = document.getElementById('playPauseBtn');
                 playPauseBtn.classList.remove("bi-play-circle-fill");
                 playPauseBtn.classList.add("bi-pause-circle-fill");
+                
+                document.getElementById('CurrentPlaylistImage').src = all_playlists[playlist_name_clicked]["imageUrl"];
+                // console.log(all_playlists[playlist_name_clicked]["imageUrl"]);
 
                 fetchSongsfromPlaylist(playlist_name_clicked)
                     .then(song_list => {
                         console.log(song_list);
                         current_index = 0;
+                        document.getElementById('CurrentSongTitle').textContent = song_list[current_index];
+
                         playPlaylistSongs(playlist_name_clicked,song_list);
                     })
                     .catch(error => {
@@ -119,7 +125,7 @@ function fetchRecentlyPlaylists(username) {
 
             // Append the playlist item to the container
             playlistContainer.appendChild(playlistItem);
-
+                
             }
         }
     )}
@@ -141,7 +147,7 @@ function fetchSongsfromPlaylist(playlist_name) {
 
 
 
-
+    
 function fetchUserInfo(username){
     // Request
 
@@ -154,7 +160,7 @@ function fetchUserInfo(username){
 
     })
     .then(data => {
-
+        
         console.log(data);
 
         // take data from fetch
@@ -199,6 +205,8 @@ function playPlaylistSongs(playlist_name_clicked, playlistData) {
             console.log(songs[current_index]);
 
             audioPlayer.src = songs[current_index];
+            document.getElementById('CurrentSongTitle').textContent = songs[current_index];
+
             audioPlayer.play();
         }
         else {
@@ -209,6 +217,8 @@ function playPlaylistSongs(playlist_name_clicked, playlistData) {
             if (currentIndexInNames < playlistNames.length - 1) {
                 // Move to the next playlist
                 const nextPlaylistName = playlistNames[currentIndexInNames + 1];
+                document.getElementById('CurrentSongTitle').textContent = nextPlaylistName;
+                document.getElementById('CurrentPlaylistImage').src = all_playlists[nextPlaylistName]["imageUrl"];
                 console.log(nextPlaylistName);
                 current_index = 0;
                 fetchSongsfromPlaylist(nextPlaylistName)
@@ -256,6 +266,8 @@ function nextsong() {
 
     if (current_index < current_playlists.length) {
         audioPlayer.src = current_playlists[current_index];
+        document.getElementById('CurrentSongTitle').textContent = getSongNameFromPath(current_playlists[current_index]);
+
         audioPlayer.play();
     } else {
         console.log('Playlist ended');
@@ -270,6 +282,8 @@ function previoussong() {
         console.log(current_playlists[current_index]);
         audioPlayer.pause();
         audioPlayer.src = current_playlists[current_index];
+        document.getElementById('CurrentSongTitle').textContent = getSongNameFromPath(current_playlists[current_index]);
+
         audioPlayer.play();
     } else {
         console.log('No previous song available');
@@ -278,11 +292,25 @@ function previoussong() {
 }
 
 
+function getSongNameFromPath(audioPath) {
+    var pathSegments = audioPath.split('/');
+
+    var fileName = pathSegments[pathSegments.length - 1];
+
+    var nameSegments = fileName.split('.');
+
+    var songName = nameSegments[0];
+
+    songName = songName.replace(/_/g, ' ');
+
+    return songName;
+}
+
 
 function controlSeekBar() {
     const seekBar = document.getElementById('seekBar');
-    const playedColor = '#3bdcd2';
-    const remainingColor = '#ccc';
+    const playedColor = '#3bdcd2'; 
+    const remainingColor = '#ccc';  
 
     audioPlayer.addEventListener('timeupdate', function () {
         const currentTime = audioPlayer.currentTime;
@@ -301,7 +329,7 @@ function controlSeekBar() {
     });
 
     seekBar.addEventListener('mousedown', function () {
-        audioPlayer.pause();
+        audioPlayer.pause(); 
     });
 
     seekBar.addEventListener('mouseup', function () {
@@ -326,14 +354,14 @@ function controlVolume() {
         if (audioPlayer.muted) {
             volumeIcon.style.color = mutedColor;
         } else {
-            volumeIcon.style.color = '';
+            volumeIcon.style.color = ''; 
         }
     });
 
     volumeBar.addEventListener('input', function () {
         const volumeLevel = volumeBar.value / 100;
         audioPlayer.volume = volumeLevel;
-        audioPlayer.muted = false;
+        audioPlayer.muted = false;  
         volumeBar.style.background = `linear-gradient(90deg, ${mutedColor} ${volumeBar.value}%, transparent ${volumeBar.value}%)`;
     });
 
@@ -343,45 +371,24 @@ function controlVolume() {
         if (audioPlayer.muted) {
             volumeIcon.style.color = mutedColor;
         } else {
-            volumeIcon.style.color = '';
+            volumeIcon.style.color = '';  
         }
     });
 }
 // ----------------------------------------------------------------
-// Form Edit Profile
+
 function showEditForm() {
     document.getElementById('editForm').style.display = 'block';
 }
 
-function changeInfo(fieldName) {
-    var inputValue = document.getElementById(fieldName).value;
-    // Add logic to handle changing information
-    // This function can be modified according to your requirements
-    console.log(fieldName + ' changed to: ' + inputValue);
-}
+// function changeInfo(fieldName) {
+//     var inputValue = document.getElementById(fieldName).value;
+//     // Add logic to handle changing information
+//     // This function can be modified according to your requirements
+//     console.log(fieldName + ' changed to: ' + inputValue);
+// }
 
 function doneEditing() {
     document.getElementById('editForm').style.display = 'none';
 }
-// ------------------------------------------------------------------
-// Component add/delete playlist
-function toggleOptions() {
-    var options = document.getElementById('options');
-    options.style.display = options.style.display === 'block' ? 'none' : 'block';
-}
-
-function addPlaylist() {
-    alert('Add Playlist option selected');
-}
-
-function deletePlaylist() {
-    alert('Delete Playlist option selected');
-}
-
-
-var options = document.getElementById('options');
-
-options.addEventListener('mouseleave', function() { options.style.display = 'none';});
-
-
 

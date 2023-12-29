@@ -1,9 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
-
+body, html {
+    overflow-y: hidden; /* Hide vertical scrollbar */
+}
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    
 }
 
 body {
@@ -34,6 +37,8 @@ header .menu_side{
     margin: 1% 0.5%;
     color: #fff;
     background-color: #000000;
+    height: 100%;
+    /* overflow: hidden; */
 }
 
 header .song_side {
@@ -45,9 +50,6 @@ header .song_side {
     background-color: #000000;
     overflow-y: scroll;
 }
-/* -------------------------------------------------- */
-/*                      MENU SIDE                     */
-/* -------------------------------------------------- */
 
 header .menu_side .logo{
     position: relative;
@@ -108,7 +110,7 @@ header .menu_side .playlist h4 {
 }
 
 header .menu_side .playlist h4:hover {
-    color: #2db2d7;
+    color: #fff;
 }
 
 header .menu_side .playlist h4 span {
@@ -136,7 +138,7 @@ header .menu_side .playlist h4 .bi {
 }
 
 header .menu_side .playlist .active {
-    color: #ffffff;
+    color: #3bdcd2;
 }
 
 header .menu_side .playlist .active span {
@@ -257,70 +259,6 @@ header .song_side nav .search input{
      border-radius: 50%;
  }
 
- #userImage {
-     cursor: pointer;
- }
-
- .edit-form {
-     position: relative;
-     display: none;
-     position: absolute;
-     top: 50%;
-     left: 60%;
-     transform: translate(-50%, -50%);
-     padding: 15px;
-     border-radius: 10px;
-     background-color: rgba(255, 255, 255, 0.2);
-     text-align: center;
-     backdrop-filter: blur(5px);
- }
-
-.edit-form h4 {
-    font-size: 35px;
-    margin-bottom: 20px;
-    color: #fff;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
- .edit-form label {
-     display: block;
-     margin-bottom: 8px;
-     margin-right: 15px;
-     white-space: nowrap;
-     color: #fff;
-
- }
-
- .edit-form input {
-     width: calc(100% - 24px);
-     border-radius: 6px;
-     border: none;
-     padding: 8px;
-     margin-bottom: 16px;
-     box-sizing: border-box;
- }
-
- .form-group {
-     display: flex;
-     justify-content: space-between;
-     align-items: center;
- }
-
- .edit-form button {
-     background-color: #187993;
-     color: white;
-     margin: 15px;
-     margin-bottom: 27px;
-     padding: 8px 12px;
-     border: none;
-     border-radius: 4px;
-     cursor: pointer;
- }
-
- .edit-form button:hover {
-     background-color: #12576b;
- }
-
  header .song_side .my_playlist {
      width: 100%;
      height: 40%;
@@ -365,7 +303,7 @@ header .song_side nav .search input{
      list-style-type: none;
      margin-right: 40px;
      transition: .3s linear;
-     background-color: rgb(47, 54, 78);
+     background-color: antiquewhite;
  }
 
  header .song_side .my_playlist .playlists li:hover {
@@ -413,54 +351,6 @@ header .song_side nav .search input{
      margin-top: 3px;
      color: #4c5262;
  }
-
- /* ------------------ */
- #image {
-     cursor: pointer;
- }
-
- .img_play .dots {
-     position: absolute;
-     top: 10px;
-     right: 22px;
-     display: flex;
-     flex-direction: column;
-     gap: 5px;
-     cursor: pointer;
- }
-
- .dots bi {
-     margin: 0;
-     padding: 0;
-     color: #fff;
- }
-
- .img_play .options {
-     display: none;
-     position: absolute;
-     top: 5px;
-     right: 22px;
-     background-color: rgba(7, 19, 23, 0.6);
-     box-shadow: 0 0 10px rgba(236, 235, 235, 0.1);
-     /* padding: 5px; */
-     border-radius: 2px;
-     z-index: 1;
- }
-
- .option {
-     cursor: pointer;
-     font-size: 13px;
-     color: #ece8e8;
-     padding: 2px;
-     /* margin-bottom: 2px; */
-     transition: background-color 0.3s;
-     border-radius: 2px;
- }
-
- .option:hover {
-     background-color: #f0f0f0;
- }
- /* ------------------ */
 
   header .song_side .favourite_songs {
       width: 100%;
@@ -518,3 +408,229 @@ header .song_side nav .search input{
   }
 
 
+
+/* Add these styles to your existing CSS or create a new stylesheet */
+
+/* .music-control-bar {
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #053248; 
+    color: #fff; 
+    width: 75%;
+    position: fixed;
+    bottom: 0;
+  }
+  
+  .controls,
+  .volume-control {
+    display: flex;
+    align-items: center;
+  }
+  
+  .controls i,
+  .volume-control i {
+    font-size: 1.5em; 
+    cursor: pointer;
+    margin: 0 8px;
+    transition: color 0.3s; 
+
+  }
+  
+  .controls i:hover,
+  .volume-control i:hover {
+    color: #3bdcd2; 
+  }
+
+  .progress-bar,
+  .volume-control input {
+    width: 150px; 
+  }
+  
+  input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 8px;
+    background: #555; 
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    border-radius: 4px;
+    margin: 0;
+  }
+  
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #0cc8bb; 
+    cursor: pointer;
+    border-radius: 50%;
+  }
+  
+  input[type="range"]:hover {
+    opacity: 1;
+  }
+  
+  .volume-control {
+    display: flex;
+    align-items: center;
+  }
+  
+  .volume-control i {
+    font-size: 1.2em; 
+    margin-right: 8px;
+  } */
+  
+
+
+  .music-control-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #053248; 
+    color: #fff;
+    width: 75%;
+    position: fixed;
+    bottom: 0;
+}
+
+.playlist-info {
+    display: flex;
+    align-items: center;
+}
+
+.playlist-info img {
+    width: 30px; /* Điều chỉnh kích thước hình của playlist nếu cần thiết */
+    height: 30px;
+    margin-right: 10px;
+}
+
+.controls,
+.progress-bar,
+.volume-control {
+    display: flex;
+    align-items: center;
+}
+
+.controls i,
+.volume-control i {
+    font-size: 1.5em; 
+    cursor: pointer;
+    margin: 0 8px;
+    transition: color 0.3s; 
+}
+
+.controls i:hover,
+.volume-control i:hover {
+    color: #3bdcd2; 
+}
+
+.progress-bar input,
+.volume-control input {
+    width: 100%;
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 8px;
+    background: #555; 
+    outline: none;
+    opacity: 0.7;
+    transition: opacity .2s;
+    border-radius: 4px;
+    margin: 0;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #0cc8bb; 
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+input[type="range"]:hover {
+    opacity: 1;
+}
+
+.volume-control i {
+    font-size: 1.2em;
+    margin-right: 8px;
+}
+
+.song-title {
+    font-size: 14px; /* Điều chỉnh kích thước font cho tên bài hát nếu cần thiết */
+}
+
+
+
+/* --------------------------------------------- */
+#userImage {
+    cursor: pointer;
+}
+
+.edit-form {
+    position: relative;
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.edit-form h2 {
+   font-size: 35px;
+   margin-bottom: 20px;
+}
+
+.edit-form label {
+    display: block;
+    margin-bottom: 8px;
+    margin-right: 10px;
+    white-space: nowrap;
+
+}
+
+.edit-form input {
+    width: calc(100% - 24px);
+    border-radius: 6px;
+    border: 1px solid black;
+    padding: 8px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+}
+
+.form-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.edit-form button {
+    background-color: #1765a4;
+    color: white;
+    margin: 10px;
+    margin-bottom: 27px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.edit-form button:hover {
+    background-color: #071b46;
+}
