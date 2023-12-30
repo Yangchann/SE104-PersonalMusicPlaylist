@@ -158,5 +158,29 @@ async def take_recently_playlists(username: str, db: db_dependency):
 async def take_songs_list_from_playlist_name(playlist_name: str, db: db_dependency):
     
     # replace by database
-    return Playlists[playlist_name]["songslist"]    
+    return Playlists[playlist_name]["songslist"]   
+
+@router.post("/playlists/update_recently_playlists")
+async def update_recently_list(username: str, value: str, db: Session = Depends(get_db)):
+    user = db.query(Users).filter(Users.username == username).first()
+
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    if user.recently_songs is None:
+        user.recently_songs = []
+
+    # Remove the value if it already exists in the current recent playlist
+    user.recently_songs = [song for song in user.recently_songs if song != value]
+
+    # Add the value to the beginning of the list
+    user.recently_songs.insert(0, value)
+
+    # Trim the list to the maximum length
+    user.recently_songs = user.recently_songs[:8]
+
+    # Commit the changes to the database
+    db.commit()
+
+    return {"Status": True, "details": "Song added to recently played list successfully.", "username": user.username} 
     
