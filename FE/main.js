@@ -14,11 +14,11 @@ current_playlists = []
 all_playlists = []
 current_index = 0
 // playlist_name_clicked = ""
+ALL_playlists = []
 var audioPlayer = new Audio()
 
 function fetchownPlaylists(username) {
     // Gửi yêu cầu GET tới endpoint của server
-    // var username = document.getElementById("userImage").getAttribute("title")
     fetch(`http://127.0.0.1:8001/playlists/take_owned_playlists/${username}`)
     .then(response => {
         if (!response.ok) {
@@ -28,20 +28,17 @@ function fetchownPlaylists(username) {
     })
     .then(data => {
         // Lấy container của playlists
+        localStorage.setItem('all_playlists', data);
         all_playlists = data;
-        console.log(all_playlists);
 
         const playlistContainer = document.getElementById('myPlaylistContainer');
 
         // Loop through the data and create playlist items
         for (const key in data) {
-            // console.log(key, data[key]);
             // Create the content for each playlist item
 
             const imageUrl = data[key]["imageUrl"]
             const title = data[key]["title"]
-            console.log(imageUrl)
-            console.log(title)
 
             const playlistItem = document.createElement('li');
             playlistItem.className = 'Item';
@@ -63,19 +60,16 @@ function fetchownPlaylists(username) {
         playButtons.forEach(button => {
             button.addEventListener('click', function () {
                 const playlist_name_clicked = button.closest('li').querySelector('h5').textContent;
-                console.log(playlist_name_clicked);
                 const playPauseBtn = document.getElementById('playPauseBtn');
                 playPauseBtn.classList.remove("bi-play-circle-fill");
                 playPauseBtn.classList.add("bi-pause-circle-fill");
                 
-                console.log(all_playlists[playlist_name_clicked]);
                 document.getElementById('CurrentPlaylistImage').src = all_playlists[playlist_name_clicked]["imageUrl"];
                 
                 document.querySelector('.music-control-bar').style.display = 'flex';
 
                 fetchSongsfromPlaylist(playlist_name_clicked)
                     .then(song_list => {
-                        console.log(song_list);
                         current_index = 0;
                         document.getElementById('CurrentSongTitle').textContent = song_list[current_index];
 
@@ -94,7 +88,7 @@ function fetchownPlaylists(username) {
 function fetchRecentlyPlaylists(username) {
     // Gửi yêu cầu GET tới endpoint của server
     // var username = document.getElementById("userImage").getAttribute("title")
-    fetch(`http://127.0.0.1:8001/playlists/take_recently_playlists/${username}`)
+    fetch(`http://127.0.0.1:8001/playlists/take_all_playlists`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -104,41 +98,58 @@ function fetchRecentlyPlaylists(username) {
         .then(data => {
         // Lấy container của playlists
         const playlistContainer = document.getElementById('myRecentlyPlaylistContainter');
-
+        const all_playlists = data;
+        console.log(all_playlists);
         // Loop through the data and create playlist items
         for (const key in data) {
-            // console.log(key, data[key]);
             // Create the content for each playlist item
 
             const imageUrl = data[key]["imageUrl"]
             const title = data[key]["title"]
-            console.log(imageUrl)
-            console.log(title)
 
             const playlistItem = document.createElement('li', className='Item');
             playlistItem.innerHTML = `
-                <div class="img_play">
-                    <img src="${imageUrl}" alt="alan">
-                    <i id="playbtn" class="bi playListPlay bi-play-circle-fill"></i>
-                    <div class="dots" id="dotContainer" onclick="toggleOptions()"><i class="bi bi-three-dots-vertical"></i></div>
-                    <div class="options" id="options">
-                        <div class="option" onclick="addPlaylist()">Add Playlist</div>
-                        <div class="option" onclick="deletePlaylist()">Delete Playlist</div>
+            <div class="img_play" data-playlist-id="${key}">
+                <img src="${imageUrl}" alt="alan">
+                <i id="playbtn" class="bi playListPlay bi-play-circle-fill"></i>
+                <div class="dots" id="dotContainer" onclick="toggleOptions(event)"></div>
+                <div class="options" id="options" onclick="handleOptionsClick(event)">
+                    <div class="option" onclick="addPlaylist(event)">Add Playlist</div>
+                
                     </div>
-                </div>
-                <h5>${title}
-                    <br>
-                    <div class="subtitle">Subtitle</div>
-
-                </h5>
+            </div>
+            <h5>${title}</h5>
             `;
 
             // Append the playlist item to the container
             playlistContainer.appendChild(playlistItem);
-                
             }
-        }
-    )}
+            const playButtons = document.querySelectorAll('#AllPlaylistContainer .bi.playListPlay');
+            playButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const playlist_name_clicked = button.closest('li').querySelector('h5').textContent;
+                    const playPauseBtn = document.getElementById('playPauseBtn');
+                    playPauseBtn.classList.remove("bi-play-circle-fill");
+                    playPauseBtn.classList.add("bi-pause-circle-fill");
+                    
+                    document.getElementById('CurrentPlaylistImage').src = all_playlists[playlist_name_clicked]["imageUrl"];
+                    
+                    document.querySelector('.music-control-bar').style.display = 'flex';
+    
+                    fetchSongsfromPlaylist(playlist_name_clicked)
+                        .then(song_list => {
+                            current_index = 0;
+                            document.getElementById('CurrentSongTitle').textContent = song_list[current_index];
+    
+                            playPlaylistSongs(playlist_name_clicked,song_list);
+                        })
+                        .catch(error => {
+                            console.error('Error fetching songs:', error);
+                        });
+                });
+            });
+        });
+}
 
 
 
@@ -171,12 +182,13 @@ function fetchUserInfo(username){
     })
     .then(data => {
         
-        console.log(data);
 
         // take data from fetch
-        var avatarPath = data["avatar_path"];
+        var avatarPath = "userimg/" + username + ".jpg";
+        console.log(avatarPath);
         var firstName = data["first_name"];
         var lastName = data["last_name"];
+
 
         var userImage = document.getElementById('userImage');
         var userImage_1 = document.getElementById('userImage_1');
@@ -273,13 +285,11 @@ function pause() {
 
     if (audioPlayer.paused) {
         audioPlayer.play();
-        console.log('Paused');
         playPauseBtn.classList.remove("bi-play-circle-fill");
         playPauseBtn.classList.add("bi-pause-circle-fill");
     }
     else {
         audioPlayer.pause();
-        console.log("Play")
         playPauseBtn.classList.remove("bi-pause-circle-fill");
         playPauseBtn.classList.add("bi-play-circle-fill");
     }
@@ -296,7 +306,6 @@ function nextsong() {
 
         audioPlayer.play();
     } else {
-        console.log('Playlist ended');
         showNotification('End of playlist');
         current_index = 0; // Reset to the beginning
     }
@@ -306,14 +315,12 @@ function previoussong() {
     current_index--;
 
     if (current_index >= 0 && current_index < current_playlists.length) {
-        console.log(current_playlists[current_index]);
         audioPlayer.pause();
         audioPlayer.src = current_playlists[current_index];
         document.getElementById('CurrentSongTitle').textContent = getSongNameFromPath(current_playlists[current_index]);
 
         audioPlayer.play();
     } else {
-        console.log('No previous song available');
         showNotification('No previous song');
         current_index = 0; // Reset to the beginning
     }
@@ -432,6 +439,10 @@ function showEditForm() {
 
 function doneEditing() {
     document.getElementById('editForm').style.display = 'none';
+    changeInfo_firstname('firstName');
+    changeInfo_lastname('lastName');
+    uploadProfilePicture();
+    location.reload();
 }
 
 
@@ -451,7 +462,157 @@ function deletePlaylist(event) {
     const imgPlayElement = event.target.closest('.img_play');
     const playlistId = imgPlayElement.dataset.playlistId;
     playlistElement = document.querySelector(`.img_play[data-playlist-id="${playlistId}"]`).closest('li');
-
+    const title = playlistElement.querySelector('h5').textContent;
     playlistElement.remove();
+
+
+    var Data_request = {
+        username: localStorage.getItem("username"),
+        playlist_name: title  // Thay đổi last_name thành first_name để phản ánh thay đổi trong API Python
+    }; 
+
+    fetch(`http://127.0.0.1:8001/playlists/delete_from_own_playlists`, { 
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(Data_request)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Invalid credentials');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('API Response:', data);
+    });
+
+}
+function addPlaylist(event) {
+    event.stopPropagation(); 
+    const imgPlayElement = event.target.closest('.img_play');
+    const playlistId = imgPlayElement.dataset.playlistId;
+    playlistElement = document.querySelector(`.img_play[data-playlist-id="${playlistId}"]`).closest('li');
+    const title = playlistElement.querySelector('h5').textContent;
+
+    var Data_request = {
+        username: localStorage.getItem("username"),
+        playlist_name: title  // Thay đổi last_name thành first_name để phản ánh thay đổi trong API Python
+    }; 
+
+    fetch(`http://127.0.0.1:8001/playlists/add_to_own_playlists`, { 
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(Data_request)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Invalid credentials');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('API Response:', data);
+    });
+
+}
+
+function changeInfo_firstname(fieldName) {
+    var newValue = document.getElementById(fieldName).value;
+    var username = localStorage.getItem("username");
+    if (!newValue.trim()) {
+        // Handle the case where the input is empty (e.g., display a message)
+        return;
+    }
+
+
+    var Data_request = {
+        username: username,
+        first_name: newValue  // Thay đổi last_name thành first_name để phản ánh thay đổi trong API Python
+    }; 
+
+    fetch(`http://127.0.0.1:8001/user/update_first_name`, { 
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(Data_request)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Invalid credentials');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('API Response:', data);
+    });
+    location.reload();
+
+}
+function changeInfo_lastname(fieldName) {
+    var newValue = document.getElementById(fieldName).value;
+    var username = localStorage.getItem("username");
+
+    if (!newValue.trim()) {
+        // Handle the case where the input is empty (e.g., display a message)
+        return;
+    }
+
+
+
+    var Data_request = {
+        username: username,
+        last_name: newValue  // Thay đổi last_name thành first_name để phản ánh thay đổi trong API Python
+    }; 
+
+    fetch(`http://127.0.0.1:8001/user/update_last_name`, { 
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(Data_request)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Invalid credentials');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('API Response:', data);
+    });
+    location.reload();
+
+}
+
+
+
+function uploadProfilePicture() {
+    var input = document.getElementById('profilePicture');
+    var file = input.files[0];
+    
+        var formData = new FormData();
+        var username = localStorage.getItem("username");
+        formData.append('username', username);
+        formData.append('avatar', file);
+
+        fetch(`http://127.0.0.1:8001/user/update_avatar/${username}`, {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error uploading profile picture.');
+            }
+            return response.json();
+        })
+        .then(data => {
+           console.log(data);
+        })
+    
 }
 

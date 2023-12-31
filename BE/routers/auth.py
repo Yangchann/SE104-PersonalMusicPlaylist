@@ -1,23 +1,21 @@
 # import APIRouter
-from fastapi import APIRouter, Depends, HTTPException, status, File, UploadFile, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status, File, UploadFile
 from pydantic import BaseModel
 from models import Users
-# from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 from database import SessionLocal
 from typing import Annotated
-# from fastapi.security import OAuth2PasswordRequestForm
 from datetime import timedelta, datetime
 import bcrypt
+from PIL import Image
+import io
 import os
-
 router = APIRouter()
 
 
 
-salt = bcrypt.gensalt() # for hashing algorithm
+salt = bcrypt.gensalt()
 
-# validation User request
 class CreateUserRequest(BaseModel):
     username: str
     first_name: str
@@ -34,6 +32,15 @@ class UpdateUserInfor(BaseModel):
     last_name: str
     favorites_songs: str
     avatar_path: str    
+
+class UpdateUserFirstName(BaseModel):
+    username: str
+    first_name: str
+class UpdateUserLastName(BaseModel):
+    username: str
+    last_name: str
+
+
 
 
 def get_db():
@@ -52,18 +59,14 @@ async def add_database(db, request):
         db.rollback()
         raise e
     
-# param means: db will be define in a "get_db" function        
 db_dependency = Annotated[Session, Depends(get_db)]    
 
-# Check auth sucessfully
 def authenticate_user(username: str, password: str, db):
-    # find the user information if it exists
     user = db.query(Users).filter(Users.username == username).first()
 
     if not user:
         return False
 
-    # compare the hashed password from the database with the input password
     if not bcrypt.checkpw(password.encode('utf-8'), user.hashed_password):
         return False
 
@@ -74,8 +77,6 @@ def authenticate_user(username: str, password: str, db):
 @router.post("/auth/signup")
 async def create_user(db: db_dependency,
                       create_user_request: CreateUserRequest):
-    # this following line will not work cause Users table doesnt have "passwork" atribute
-    # create_user_model = Users(**create_user_request.model_dump()) # create Users instance database
     
     create_user_model = Users(
                                 username=create_user_request.username,
@@ -144,7 +145,10 @@ async def update_user_infor(username: str,
     
     db.commit()
 
+
     
+    
+
 class UserManager:
     def __init__(self, db: Session):
         self.db = db
@@ -165,15 +169,9 @@ class UserManager:
         if not user:
             raise HTTPException(status_code=404, detail="User not found")
 
-        # Specify the directory where you want to save avatar images
-        user_avatar_directory = "userimg"
+        user_avatar_directory = r"D:\SE\FrontEnd\userimg"
 
-        # Create the directory if it doesn't exist
-        if not os.path.exists(user_avatar_directory):
-            os.makedirs(user_avatar_directory)
-
-        # Save the uploaded file to a user-specific location
-        user_avatar_path = f"{user_avatar_directory}/{username}_avatar.jpg"
+        user_avatar_path = os.path.join(user_avatar_directory,username + ".jpg")
         with open(user_avatar_path, "wb") as avatar_file:
             avatar_file.write(avatar.file.read())
 
@@ -184,20 +182,36 @@ class UserManager:
 
 user_manager = UserManager(db_dependency)
 
-@router.post("/user/update_first_name/{username}")
-async def update_first_name(username: str, first_name: str, db:db_dependency):
-    user_manager = UserManager(db)
-    user_manager.update_user_attribute(username, "first_name", first_name)
+
+class UserRequestFirstName(BaseModel):
+    username: str
+    first_name: str
+class UserRequestLastName(BaseModel):
+    username: str
+    last_name: str
+
+
+@router.post("/user/update_first_name")
+async def update_first_name(db:db_dependency, user_request: UserRequestFirstName):
+    username = user_request.username
+    user = db.query(Users).filter(Users.username == username).first()
+    user.first_name = user_request.first_name
+    db.add(user)
+    db.commit()
     return {"Status": True, "details": "First name updated successfully", "username": username}
 
-@router.post("/user/update_last_name/{username}")
-async def update_last_name(username: str, last_name: str, db:db_dependency):
-    user_manager = UserManager(db)
-    user_manager.update_user_attribute(username, "last_name", last_name)
+@router.post("/user/update_last_name")
+async def update_first_name(db:db_dependency, user_request: UserRequestLastName):
+    username = user_request.username
+    user = db.query(Users).filter(Users.username == username).first()
+    user.last_name = user_request.last_name
+    db.add(user)
+    db.commit()
     return {"Status": True, "details": "Last name updated successfully", "username": username}
+
+
 @router.post("/user/update_avatar/{username}")
 async def update_avatar(username: str, avatar: UploadFile = File(...), db: Session = Depends(get_db)):
     user_manager = UserManager(db)
     user_manager.update_user_avatar(username, avatar)
     return {"Status": True, "details": "Avatar updated successfully", "username": username}
-

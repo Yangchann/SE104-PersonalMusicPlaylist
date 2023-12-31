@@ -202,16 +202,17 @@ header .song_side nav{
     /* margin: auto; */
     margin-top: 0px;
     display: flex;
+    
     align-items: center;
     justify-content: space-between;
 }
 
 header .song_side nav .search{
     position: relative;
-    width: 50%;
+    width: 95%;
     border: 1px solix #fff;
     padding: 3px 10px;
-    margin-left: 45%;
+    /* margin-left: 45%; */
     margin-bottom: 7px;
     border-radius: 20px;
     color: rgb(142, 141, 141);
@@ -252,8 +253,12 @@ header .song_side nav .search input{
      cursor: pointer;
  }
 
+
+
+
+
  header .song_side nav .user img {
-     position: absolute;
+     /* position: absolute; */
      width: 40px;
      height: 40px;
      border-radius: 50%;
@@ -591,16 +596,16 @@ input[type="range"]:hover {
     transform: translate(-50%, -50%);
     padding: 15px;
     border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: #090f1f48;
     text-align: center;
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(15px);
 
 }
 
-.edit-form h4 {
-   font-size: 35px;
+.edit-form h2 {
+   font-size: 25px;
    margin-bottom: 20px;
-   color: #fff;
+   color: #1eb6b6;
    font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -609,7 +614,9 @@ input[type="range"]:hover {
     margin-bottom: 8px;
     margin-right: 15px;
     white-space: nowrap;
-    color: #fff;
+    color: #0cf0ec8d;
+    font-weight: 500;
+    
 
 }
 
@@ -664,7 +671,7 @@ input[type="range"]:hover {
     color: #ffffff;
 }
 
-.img_play:hover .dots {  /* Thêm :hover ở đây để chỉ hiển thị khi di chuột vào .img_play */
+.img_play:hover .dots { 
     display: flex;
 }
 
@@ -679,7 +686,7 @@ input[type="range"]:hover {
     z-index: 1;
 }
 
-.img_play:hover .options {  /* Thêm :hover ở đây để chỉ hiển thị khi di chuột vào .img_play */
+.img_play:hover .options { 
     display: block;
 }
 
@@ -697,3 +704,41 @@ input[type="range"]:hover {
     color: #3bdcd2;
 }
 /* ------------------ */
+.header .song_side .profile .ava .upload-btn-wrapper {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-bottom: 10px;
+}
+
+.header .song_side .profile .ava .upload-btn-wrapper input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0;
+}
+
+.header .song_side .profile .ava .upload-btn-wrapper .btn {
+    border: 2px solid gray;
+    color: gray;
+    background-color: white;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 8px 20px;
+    margin-top: 8px;
+    margin-right: 8px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.header .song_side .profile .ava .upload-btn-wrapper .btn:hover {
+    border: 2px solid #3bdcd2;
+    color: #3bdcd2;
+}
+
+.header .song_side .profile .ava .upload-btn-wrapper .upload-btn-wrapper:hover .btn {
+    border: 2px solid #3bdcd2;
+    color: #3bdcd2;
+}

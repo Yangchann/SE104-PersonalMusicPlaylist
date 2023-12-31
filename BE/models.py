@@ -19,7 +19,7 @@ class Users(Base):
     last_name = Column(String)
     hashed_password = Column(String)
     playlists = Column(JSON, default=[])
-    favorites_songs = Column(String, default="") # favourite playlist
+    favorites_songs = Column(String, default="") 
     avatar_path = Column(String, default="userimg/default.jpg")
     recently_songs = Column(JSON, default=[])
     

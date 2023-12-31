@@ -13,42 +13,6 @@ router = APIRouter()
 
 with open("playlists.json", "r", encoding="utf-8") as json_file:
     Playlists = json.load(json_file)
-# Playlists = {
-#     "Suy": {
-#         "title": "Suy", 
-#          "imageUrl": "img/1.jpg",
-#         "songslist": ["Chúng ta không thuộc về nhau", "Em của ngày hôm qua"]
-#         },
-#     "Yêu đời": {
-#         "title": "Yêu đời", 
-#          "imageUrl": "img/2.jpg",
-#          "songslist": ["Chúng ta không thuộc về nhau", "Em của ngày hôm qua"]
-#         },
-    
-#     "Cờ bạc": {
-#         "title": "Cờ bạc", 
-#         "imageUrl": "img/3.jpg",
-#         "songslist": ["Chúng ta không thuộc về nhau", "Em của ngày hôm qua"]
-#         },
-#     "Bolero": {
-#         "title": "Bolero", 
-#         "imageUrl": "img/4.jpg",
-#         "songslist": ["Chúng ta không thuộc về nhau", "Em của ngày hôm qua"]
-#         },
-#     "Hip hop": {
-#         "title": "Hip hop", 
-#          "imageUrl": "img/2.jpg",
-#          "songslist": ["Chúng ta không thuộc về nhau", "Em của ngày hôm qua"]
-#         },
-#     "Cải lương": {
-#         "title": "Cải lương", 
-#          "imageUrl": "img/2.jpg",
-#          "songslist": ["Chúng ta không thuộc về nhau", "Em của ngày hôm qua"]
-#         },  
-#     }
-
-
-
 
 def get_db():
     db = SessionLocal()
@@ -65,9 +29,14 @@ async def take_all_playlists():
     return Playlists
 
 
+class AddPlaylistRequest(BaseModel):
+    username: str
+    playlist_name: str
+
 
 @router.post("/playlists/add_to_own_playlists")
-async def add_to_list(username: str, value: str, db: db_dependency):
+async def add_to_list(db: db_dependency, userrequest: AddPlaylistRequest ):
+    username = userrequest.username
     user = db.query(Users).filter(Users.username == username).first()
     
     if user is None:
@@ -77,15 +46,20 @@ async def add_to_list(username: str, value: str, db: db_dependency):
         user.playlists = []
     
     playlist = list(user.playlists)
-    playlist.append(value)    
+    playlist.append(userrequest.playlist_name)    
     user.playlists = playlist
     
     db.add(user)
     
     # Commit the changes to the database
     db.commit()
-@router.post("/playlists/delete_from_own_playlists")
-async def delte_from_list(username: str, value: str, db: db_dependency):
+    
+class DeleteRequest(BaseModel):
+    username: str
+    playlist_name: str
+@router.delete("/playlists/delete_from_own_playlists")
+async def delte_from_list(db: db_dependency, user_request: DeleteRequest):
+    username = user_request.username
     user = db.query(Users).filter(Users.username == username).first()
     
     if user is None:
@@ -96,7 +70,7 @@ async def delte_from_list(username: str, value: str, db: db_dependency):
 
     
     playlist = list(user.playlists)
-    playlist.remove(value)    
+    playlist.remove(user_request.playlist_name)    
     user.playlists = playlist
     
     db.add(user)
@@ -136,7 +110,7 @@ async def take_owned_playlists(username: str, db: db_dependency):
     playlist_names = user.playlists
     
     owned_playlists = {name: Playlists[name] for name in playlist_names}
-    
+    print(owned_playlists)
     return owned_playlists
 
 
@@ -158,29 +132,5 @@ async def take_recently_playlists(username: str, db: db_dependency):
 async def take_songs_list_from_playlist_name(playlist_name: str, db: db_dependency):
     
     # replace by database
-    return Playlists[playlist_name]["songslist"]   
-
-@router.post("/playlists/update_recently_playlists")
-async def update_recently_list(username: str, value: str, db: Session = Depends(get_db)):
-    user = db.query(Users).filter(Users.username == username).first()
-
-    if user is None:
-        raise HTTPException(status_code=404, detail="User not found")
-
-    if user.recently_songs is None:
-        user.recently_songs = []
-
-    # Remove the value if it already exists in the current recent playlist
-    user.recently_songs = [song for song in user.recently_songs if song != value]
-
-    # Add the value to the beginning of the list
-    user.recently_songs.insert(0, value)
-
-    # Trim the list to the maximum length
-    user.recently_songs = user.recently_songs[:8]
-
-    # Commit the changes to the database
-    db.commit()
-
-    return {"Status": True, "details": "Song added to recently played list successfully.", "username": user.username} 
+    return Playlists[playlist_name]["songslist"]    
     
