@@ -21,16 +21,6 @@ This project, SE104, focuses on developing a personal music streaming web applic
 
 ## Getting Started
 
-### Setting up Audio Files
-
-First, organize your audio files in the following structure within the "audio" folder:
-
-### Running the Backend
-
-Navigate to the BE folder and set up a virtual environment:
-
-# Running Instructions
-
 ## Hosting Backend
 
 First, organize your audio files in the following structure within the "audio" folder:
