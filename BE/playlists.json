@@ -1,0 +1,67 @@
+{
+    "Suy": {
+        "title": "Suy", 
+         "imageUrl": "img/Suy.jpg",
+        "songslist": ["Từ Chối Nhẹ Nhàng Thôi", "Suy", "Họ Yêu Ai Mất Rồi", "Tình Đắng Như Ly Cà Phê", "Yêu Em Qua Dòng Tin Nhắn"]
+        },
+    "Yêu đời": {
+        "title": "Yêu đời", 
+         "imageUrl": "img/YeuDoi.jpg",
+         "songslist": ["My Everything", "One Day", "Enjoy Your Like", "Wildlife", "Và Tôi Hát", "Đón Bình Minh", "Ước Mơ Tôi", "Sẽ Không Dừng Lại", "Phút Giây Tuyệt Vời"]
+        },
+    "Cờ bạc": {
+        "title": "Cờ bạc", 
+        "imageUrl": "img/CoBac.jpg",
+        "songslist": ["Poker Face", " Tránh Xa Cờ Bạc"]
+        },
+    "Bolero": {
+        "title": "Bolero", 
+        "imageUrl": "img/Bolero.jpg",
+        "songslist": ["Ai Khổ Vì Ai", "Căn Nhà Màu Tím", "Cát Bụi Cuộc Đời", "Cho Vừa Lòng Em", "Con Đường Xưa Em Đi", "Đắp Mộ Cuộc Tình", "Đập Vỡ Cây Đàn", "Đêm Buồn Tỉnh Lẻ", "Giã Từ", "Lâu Đài Tình Ái", "Sầu Tím Thiệp Hồng"]
+        },
+    "Rap": {
+        "title": "Rap", 
+         "imageUrl": "img/Rap.jpg",
+         "songslist": ["Thủ Đô Cypher", "Miên Man", "Độ Tộc 2", "Anh Biết", "Tay To", "Do For Love", "Cưới Em", "Chơi Như Tụi Mỹ", "Thói Quen", "Cưới Vợ Miền Tây"]
+        },
+    "Cải lương": {
+        "title": "Cải lương", 
+         "imageUrl": "img/CaiLuong.jpg",
+         "songslist": ["Tân Cổ Tiền Thắng Tình Thua", "Tân Cổ Tình Em Tháp Mười", "Tân Cổ Tôi Yêu Bài Vọng Cổ", "Trích Đoạn Đêm Lạnh Chùa Hoang", "Trích Đoạn Người Tình Trên Chiến Trận", "Trích Đoạn Nhứng Đứa Con Của Mẹ", "Trích Đoạn Tình Yêu Và Giọt Nước Mắt", "Trích Đoạn Tô Ánh Nguyệt"]
+        },
+    "Tết": {
+        "title": "Tết", 
+         "imageUrl": "img/Tet.jpg",
+         "songslist": ["Lắng Nghe Mùa Xuân Về", "Đoản Xuân Ca", "Ngày Xuân Long Phụng Sum Vầy", "Mùa Xuân Đầu Tiên", "Như Hoa Mùa Xuân"]
+        },
+    "Lính": {
+        "title": "Lính", 
+         "imageUrl": "img/Linh.jpg",
+         "songslist": ["Thủy Thủ Và Biển Cả", "Lối Về Đất Mẹ", "Đám Cưới Nhà Binh", "Lá Xanh", "Lá Đỏ"]
+        },  
+    "Thiếu Nhi": {
+        "title": "Thiếu Nhi", 
+         "imageUrl": "img/ThieuNhi.jpg",
+         "songslist": ["Đoàn Tàu Nhỏ Xíu", "Ba Thật Là Giỏi", "Anh Phi Công Ơi", "Cá Vàng Bơi", "Em Là Hoa Hồng Nhỏ"]
+        },
+    "Quê Hương": {
+        "title": "Quê Hương", 
+         "imageUrl": "img/QueHuong.jpg",
+         "songslist": ["Anh Về Miền Tây", "Áo Mới Cà Mau", "Liên Khúc Hành Trình Trên Đất Phù Sa", "Quê Hương Tôi", "Về Dưới Mái Nhà", "Về Quê Em", "Việt Nam Quê Hương Tôi"]
+        },
+    "Trung": {
+        "title": "Trung", 
+         "imageUrl": "img/Trung.jpg",
+         "songslist": ["Bạch Nguyệt Quang - Nốt Chu Sa", "Người Theo Đuổi Ánh Sáng", "Người Đuổi Theo Gió Đêm", "Nỗi Nhớ Xuyên Qua Không Gian", "Bại Tướng"]
+        }, 
+    "Nhạc Trịnh": {
+        "title": "Nhạc Trịnh", 
+         "imageUrl": "img/NhacTrinh.jpg",
+         "songslist": ["Biển Nhớ", "Diễm Xưa", "Một Cõi Đi Về", "Tuổi Đời Mênh Mông", "Xin Cho Tôi"]
+        },
+    "Không Lời": {
+        "title": "Không Lời", 
+         "imageUrl": "img/KhongLoi.jpg",
+         "songslist": ["After The Storm", "Bradley Alone", "Friends And Family", "Jill Run"]
+        }
+}    
