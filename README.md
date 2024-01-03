@@ -1,4 +1,4 @@
-# Project SE104 - Personal Music Streaming Web Application
+# Project SE104 - Personal Music Plalist Web Applicatio
 
 ## I. Introduction
 
