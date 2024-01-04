@@ -1,4 +1,4 @@
-# Project SE104 - Personal Music Plalist Web Applicatio
+# Project SE104 - Personal Music Plalist Web Application
 
 ## I. Introduction
 
