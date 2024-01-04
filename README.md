@@ -109,6 +109,12 @@ cd BE
 python -m venv fastapi
 ```
 
+Activate virtual envi:
+
+```bash
+fastapi\Script\activate
+```
+
 Install the required packages:
 
 ```bash
